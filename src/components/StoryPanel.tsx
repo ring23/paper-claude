@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, type Target, type Variants } from "framer-motion";
 import type { Athlete } from "../data/athletes";
 import AvatarCard from "./AvatarCard";
 import AthleteViz from "./viz/AthleteViz";
@@ -21,12 +21,14 @@ const staggerDelays = {
   sources: 0.7,
 };
 
-const fadeUp = {
+const fadeUpEase: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
+
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 12 },
-  visible: (delay: number) => ({
+  visible: (custom: number, _current: Target, _velocity: Target) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, delay, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.4, delay: custom, ease: fadeUpEase },
   }),
 };
 

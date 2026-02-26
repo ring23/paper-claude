@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, type Transition } from "framer-motion";
 import type { Athlete } from "../data/athletes";
 import AvatarCard from "./AvatarCard";
 import styles from "./AthleteOrbit.module.css";
@@ -69,18 +69,38 @@ export default function AthleteOrbit({ athletes, selectedId, onSelect }: Props) 
           rotate: [0, 1.5, 0, -1.5, 0],
         };
 
-        const scatterTransition = {
-          type: "spring" as const,
+        const scatterTransition: Transition = {
+          type: "spring",
           stiffness: 200,
           damping: 20,
         };
 
-        const floatTransition = {
-          scale: { delay: 0.4 + i * 0.08, type: "spring", stiffness: 200, damping: 15 },
+        const floatTransition: Transition = {
+          scale: {
+            delay: 0.4 + i * 0.08,
+            type: "spring",
+            stiffness: 200,
+            damping: 15,
+          },
           opacity: { delay: 0.4 + i * 0.08, duration: 0.3 },
-          y: { delay: 1 + i * 0.3, duration: p.yDur, repeat: Infinity, ease: "easeInOut" },
-          x: { delay: 1 + i * 0.3, duration: p.xDur, repeat: Infinity, ease: "easeInOut" },
-          rotate: { delay: 1 + i * 0.3, duration: p.rotDur, repeat: Infinity, ease: "easeInOut" },
+          y: {
+            delay: 1 + i * 0.3,
+            duration: p.yDur,
+            repeat: Infinity,
+            ease: "easeInOut",
+          },
+          x: {
+            delay: 1 + i * 0.3,
+            duration: p.xDur,
+            repeat: Infinity,
+            ease: "easeInOut",
+          },
+          rotate: {
+            delay: 1 + i * 0.3,
+            duration: p.rotDur,
+            repeat: Infinity,
+            ease: "easeInOut",
+          },
         };
 
         return (

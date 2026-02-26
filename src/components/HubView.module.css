@@ -1,0 +1,44 @@
+.hub {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top {
+  padding-top: 80px;
+}
+
+.center {
+  flex: 1;
+  position: relative;
+  width: 100%;
+}
+
+/* Single anchor point — everything is positioned relative to this */
+.anchor {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+}
+
+/* Rings sit behind avatars */
+.ringsLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.prompt {
+  padding-bottom: 40px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--slate);
+  letter-spacing: 0.02em;
+}

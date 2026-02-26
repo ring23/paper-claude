@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wrapper svg {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}

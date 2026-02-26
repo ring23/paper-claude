@@ -1,0 +1,67 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.ring {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.inner {
+  background: rgba(11, 29, 58, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.avatarImg {
+  object-fit: cover;
+  object-position: top center;
+}
+
+.initial {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 400;
+  color: var(--ice-white);
+  line-height: 1;
+}
+
+.labels {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ice-white);
+  line-height: 1.2;
+  text-shadow: 0 1px 4px rgba(11, 29, 58, 0.6);
+}
+
+.sport {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgba(245, 249, 252, 0.7);
+  line-height: 1.2;
+  text-shadow: 0 1px 4px rgba(11, 29, 58, 0.6);
+}
+
+.miniName {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--ice-white);
+  line-height: 1.2;
+}

@@ -1,0 +1,12 @@
+.orbit {
+  position: relative;
+}
+
+.slot {
+  position: absolute;
+}
+
+/* Centers the avatar card on the slot's (x, y) position */
+.slotCenter {
+  transform: translate(-50%, -50%);
+}

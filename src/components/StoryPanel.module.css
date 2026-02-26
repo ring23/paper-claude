@@ -1,0 +1,75 @@
+.content {
+  padding: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  max-width: 680px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.nameBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.athleteName {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 400;
+  font-size: 40px;
+  color: var(--alpine-navy);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.meta {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--slate);
+}
+
+.headline {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--gold);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  font-style: italic;
+}
+
+.achievement {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--slate);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.statsRow {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.story {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--alpine-navy);
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-xl);
+}

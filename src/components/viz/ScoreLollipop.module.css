@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper svg {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}

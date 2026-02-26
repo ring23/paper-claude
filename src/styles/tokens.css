@@ -1,0 +1,98 @@
+/* @property registrations for animatable CSS custom properties */
+@property --sky-deep {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1B3A5C;
+}
+@property --sky-mid {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #4A7FA5;
+}
+@property --sky-pale {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #C4DCE8;
+}
+
+:root {
+  /* Atmosphere */
+  --sky-deep: #1B3A5C;
+  --sky-mid: #4A7FA5;
+  --sky-pale: #C4DCE8;
+  --snow: #EBF2F7;
+  --ice-white: #F5F9FC;
+
+  /* Frost surfaces */
+  --frost-bg: rgba(255, 255, 255, 0.55);
+  --frost-bg-hover: rgba(255, 255, 255, 0.70);
+  --frost-border: rgba(255, 255, 255, 0.30);
+  --frost-blur: blur(24px);
+  --frost-shadow: 0 8px 32px rgba(27, 58, 92, 0.10);
+  --frost-radius: 20px;
+
+  /* Text */
+  --alpine-navy: #0B1D3A;
+  --slate: #3D5A73;
+  --mist: #7A95AA;
+
+  /* Accents */
+  --gold: #C6982B;
+  --gold-light: #E4C45A;
+  --ice-blue: #5BA3D9;
+
+  /* Mountain layers */
+  --mountain-far: #1B3A5C;
+  --mountain-mid: #2D5F85;
+  --mountain-near: #4A7FA5;
+  --mountain-front: #8CB8D4;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+
+  /* Atmosphere transitions */
+  --sky-transition: 2s ease-in-out;
+  --sky-transition-close: 1.5s ease-in-out;
+
+  /* Ambient animation durations */
+  --aurora-duration: 20s;
+  --rings-pulse-duration: 4s;
+  --title-shimmer-interval: 10s;
+  --title-shimmer-sweep: 2s;
+  --mountain-breathe-duration: 8s;
+
+  /* Snow modulation */
+  --snow-speed: 1;
+
+  /* Stagger timing */
+  --panel-stagger: 100ms;
+  --panel-fade-duration: 400ms;
+
+  /* Sky transitions (animated via @property) */
+  transition:
+    --sky-deep var(--sky-transition),
+    --sky-mid var(--sky-transition),
+    --sky-pale var(--sky-transition);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

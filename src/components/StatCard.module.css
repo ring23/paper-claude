@@ -1,0 +1,30 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 28px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--frost-border);
+}
+
+.value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--alpine-navy);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--mist);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}

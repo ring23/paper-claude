@@ -1,0 +1,85 @@
+.landscape {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--sky-deep) 0%,
+    var(--sky-mid) 55%,
+    var(--sky-pale) 78%
+  );
+}
+
+.aurora {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 40%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.06) 60%,
+    transparent 100%
+  );
+  background-size: 30% 100%;
+  background-repeat: no-repeat;
+  animation: auroraSweep var(--aurora-duration, 20s) linear infinite;
+  pointer-events: none;
+}
+
+@keyframes auroraSweep {
+  0% { background-position: -30% 0; }
+  100% { background-position: 130% 0; }
+}
+
+.mountainLayer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.mountainLayer svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mountainNear {
+  animation: mountainBreathe var(--mountain-breathe-duration, 8s) ease-in-out infinite;
+}
+
+@keyframes mountainBreathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora {
+    animation: none;
+  }
+  .mountainNear {
+    animation: none;
+  }
+}
+
+.snowField {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  background: linear-gradient(
+    180deg,
+    var(--sky-pale) 0%,
+    var(--snow) 40%,
+    var(--ice-white) 100%
+  );
+}

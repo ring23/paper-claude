@@ -1,0 +1,41 @@
+.counter {
+  display: flex;
+  align-items: flex-end;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 300;
+  font-size: 72px;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.unitBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.unit {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--alpine-navy);
+  line-height: 1.2;
+}
+
+.context {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--mist);
+  line-height: 1.4;
+}

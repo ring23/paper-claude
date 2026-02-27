@@ -55,6 +55,31 @@ export default function StoryView({ athlete, athletes, onSelect, onClose }: Prop
         exit={{ x: "100%", transition: { type: "spring", stiffness: 200, damping: 28, delay: 0.2 } }}
         transition={{ type: "spring", stiffness: 200, damping: 28 }}
       >
+        {/* Persistent floating avatar */}
+        <motion.div
+          className={styles.floatingAvatar}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, type: "spring", stiffness: 200, damping: 20 }}
+          key={`avatar-float-${athlete.id}`}
+        >
+          <div
+            className={styles.floatingAvatarRing}
+            style={{
+              background: `linear-gradient(135deg, ${athlete.colors.primary}, ${athlete.colors.secondary})`,
+            }}
+          >
+            {athlete.avatar ? (
+              <img
+                src={athlete.avatar}
+                alt={athlete.name}
+                className={styles.floatingAvatarImg}
+              />
+            ) : (
+              <span className={styles.floatingAvatarInitial}>{athlete.initial}</span>
+            )}
+          </div>
+        </motion.div>
         {isMobile && (
           <button
             className={styles.mobileBack}

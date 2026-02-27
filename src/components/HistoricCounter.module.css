@@ -39,3 +39,9 @@
   color: var(--mist);
   line-height: 1.4;
 }
+
+@media (max-width: 768px) {
+  .number {
+    font-size: clamp(48px, 12vw, 72px);
+  }
+}

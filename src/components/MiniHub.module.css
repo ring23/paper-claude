@@ -41,3 +41,16 @@
   gap: 16px;
   justify-items: center;
 }
+
+@media (max-width: 768px) {
+  .miniHub {
+    padding: 24px 16px;
+  }
+  .title {
+    font-size: 18px;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}

@@ -41,3 +41,13 @@
 .link:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+  .trigger {
+    font-size: 13px;
+    padding: 8px 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}

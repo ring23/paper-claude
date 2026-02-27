@@ -49,30 +49,102 @@ export interface ChoiVizState {
   bgGlow: boolean;
 }
 
-// Stubs for Phase 2 agents to extend:
+// --- Klaebo viz state ---
+export type KlaeboCenterDisplay =
+  | "intro"
+  | "pyeongchang"
+  | "beijing"
+  | "milano-progress"
+  | "record-tie"
+  | "record-break"
+  | "career-total";
+
 export interface KlaeboVizState {
   type: "klaebo";
-  [key: string]: unknown;
+  centerDisplay: KlaeboCenterDisplay;
+  fuseProgress: number; // 0-3 (which Olympics the fuse has reached)
+  milanoGoldsLit: number; // 0-6 (how many 2026 event slots are gold)
+  showLeaderboard: boolean;
+  particleBurst: boolean;
+  bgGlow: boolean;
 }
+
+export type MeyersTaylorCenterDisplay =
+  | "intro"
+  | "vancouver"
+  | "sochi"
+  | "pyeongchang"
+  | "beijing"
+  | "gap"
+  | "milano-tension"
+  | "gold";
 
 export interface MeyersTaylorVizState {
   type: "meyers-taylor";
-  [key: string]: unknown;
+  centerDisplay: MeyersTaylorCenterDisplay;
+  careerDotsLit: number; // 0-6 (which career medals are shown)
+  showTimeMargin: boolean;
+  particleBurst: boolean;
+  bgGlow: boolean;
 }
+
+export type BraathenCenterDisplay =
+  | "intro"
+  | "drought-start"
+  | "drought-running"
+  | "run1"
+  | "run2"
+  | "gold"
+  | "podium";
 
 export interface BraathenVizState {
   type: "braathen";
-  [key: string]: unknown;
+  centerDisplay: BraathenCenterDisplay;
+  droughtCounterTarget: number; // 0-102 (years to animate to)
+  showRunBars: boolean;
+  particleBurst: boolean;
+  bgGlow: boolean;
 }
+
+export type HughesCenterDisplay =
+  | "miracle"
+  | "drought"
+  | "pregame"
+  | "p1-goal"
+  | "p2-wall"
+  | "ot-setup"
+  | "ot-goal"
+  | "coda";
 
 export interface HughesVizState {
   type: "hughes";
-  [key: string]: unknown;
+  centerDisplay: HughesCenterDisplay;
+  droughtCounterTarget: number; // 0-46
+  scoreUSA: number;
+  scoreCAN: number;
+  showSaveGauge: boolean;
+  saveGaugeFill: number; // 0-41
+  particleBurst: boolean;
+  bgGlow: boolean;
 }
+
+export type LiuCenterDisplay =
+  | "drought-intro"
+  | "drought-counting"
+  | "short-program"
+  | "free-start"
+  | "rising"
+  | "gold"
+  | "margin";
 
 export interface LiuVizState {
   type: "liu";
-  [key: string]: unknown;
+  centerDisplay: LiuCenterDisplay;
+  droughtCounterTarget: number; // 0-24
+  standingsPositions: [number, number, number]; // [Liu, Sakamoto, Nakai] positions (1-3)
+  highlightLiu: boolean;
+  particleBurst: boolean;
+  bgGlow: boolean;
 }
 
 /** Union of all athlete viz states. Phase 2 agents replace stubs with full types. */

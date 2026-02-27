@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import type { Athlete } from "../../../data/athletes";
 import type { ChoiVizState, RunDotState } from "../../../types/story";
 import styles from "./ChoiVizRenderer.module.css";
@@ -62,44 +61,33 @@ function spawnParticles(container: HTMLDivElement) {
   for (let i = 0; i < 40; i++) {
     const p = document.createElement("div");
     p.className = styles.particle;
-    p.style.left = "50%";
-    p.style.top = "45%";
 
     const size = 3 + Math.random() * 5;
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 100 + Math.random() * 300;
+
+    p.style.setProperty("--dx", `${Math.cos(angle) * distance}px`);
+    p.style.setProperty("--dy", `${Math.sin(angle) * distance}px`);
+    p.style.setProperty("--delay", `${Math.random() * 0.3}s`);
+    p.style.setProperty("--duration", `${1.2 + Math.random() * 0.8}s`);
     p.style.width = size + "px";
     p.style.height = size + "px";
     p.style.background = Math.random() > 0.5 ? "#E4C45A" : "#C6982B";
 
     container.appendChild(p);
-
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 100 + Math.random() * 300;
-    const dx = Math.cos(angle) * distance;
-    const dy = Math.sin(angle) * distance;
-
-    gsap.fromTo(
-      p,
-      { opacity: 1, x: 0, y: 0, scale: 1 },
-      {
-        x: dx,
-        y: dy,
-        opacity: 0,
-        scale: 0,
-        duration: 1.2 + Math.random() * 0.8,
-        delay: Math.random() * 0.3,
-        ease: "power2.out",
-      },
-    );
   }
 }
 
 export default function ChoiVizRenderer({ state }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
-  const scoreRef = useRef<HTMLSpanElement>(null);
+  const prevDisplayRef = useRef<string | null>(null);
   const prevBurstRef = useRef(false);
 
-  // Refs for GSAP-targeted elements
+  // Framer Motion animated score counter
+  const scoreMotion = useMotionValue(0);
+  const scoreDisplay = useTransform(scoreMotion, (v) => v.toFixed(2));
+
+  // Refs for DOM-targeted elements
   const dot1Ref = useRef<HTMLDivElement>(null);
   const dot2Ref = useRef<HTMLDivElement>(null);
   const dot3Ref = useRef<HTMLDivElement>(null);
@@ -119,110 +107,89 @@ export default function ChoiVizRenderer({ state }: Props) {
   const barKimRef = useRef<HTMLDivElement>(null);
   const barOnoRef = useRef<HTMLDivElement>(null);
 
-  // Animate state transitions
-  useGSAP(
-    () => {
-      if (!containerRef.current) return;
+  // Imperative state transitions — CSS transitions handle interpolation
+  useEffect(() => {
+    const stateEls = {
+      setup: setupRef.current,
+      crash1: crash1Ref.current,
+      crash2: crash2Ref.current,
+      tension: tensionRef.current,
+      score: scoreStateRef.current,
+    };
 
-      const stateEls = {
-        setup: setupRef.current,
-        crash1: crash1Ref.current,
-        crash2: crash2Ref.current,
-        tension: tensionRef.current,
-        score: scoreStateRef.current,
-      };
+    // Skip if this is the same display state (avoid re-running identical animations)
+    if (state.centerDisplay === prevDisplayRef.current) return;
+    prevDisplayRef.current = state.centerDisplay;
 
-      // Hide all center display states
-      Object.values(stateEls).forEach((el) => {
-        if (el) gsap.to(el, { opacity: 0, duration: 0.2 });
-      });
+    // Hide all center display states (CSS transition handles the fade)
+    Object.values(stateEls).forEach((el) => {
+      if (el) el.style.opacity = "0";
+    });
 
-      // Apply run dot states
-      const dotRefs = [dot1Ref, dot2Ref, dot3Ref];
-      const xRefs = [x1Ref, x2Ref, x3Ref];
-      const numRefs = [num1Ref, num2Ref, num3Ref];
+    // Apply run dot states (CSS transitions handle interpolation)
+    const dotRefs = [dot1Ref, dot2Ref, dot3Ref];
+    const xRefs = [x1Ref, x2Ref, x3Ref];
+    const numRefs = [num1Ref, num2Ref, num3Ref];
 
-      state.runDots.forEach((dotState, i) => {
-        const s = DOT_STYLES[dotState];
-        const dot = dotRefs[i].current;
-        const x = xRefs[i].current;
-        const num = numRefs[i].current;
-        if (!dot || !x || !num) return;
+    state.runDots.forEach((dotState, i) => {
+      const s = DOT_STYLES[dotState];
+      const dot = dotRefs[i].current;
+      const x = xRefs[i].current;
+      const num = numRefs[i].current;
+      if (!dot || !x || !num) return;
 
-        gsap.to(dot, {
-          borderColor: s.border,
-          background: s.bg,
-          boxShadow: s.shadow,
-          duration: 0.3,
-        });
-        gsap.to(x, { opacity: s.xOpacity, duration: 0.3 });
-        gsap.to(num, { opacity: s.numOpacity, color: s.numColor, duration: 0.3 });
-      });
+      dot.style.borderColor = s.border;
+      dot.style.background = s.bg;
+      dot.style.boxShadow = s.shadow;
+      x.style.opacity = String(s.xOpacity);
+      num.style.opacity = String(s.numOpacity);
+      num.style.color = s.numColor;
+    });
 
-      // Show active center display
-      switch (state.centerDisplay) {
-        case "setup":
-          gsap.to(stateEls.setup, { opacity: 1, duration: 0.5 });
-          break;
-        case "crash1":
-          gsap.to(stateEls.crash1, { opacity: 1, duration: 0.4 });
-          break;
-        case "crash2":
-          gsap.to(stateEls.crash2, { opacity: 1, duration: 0.4 });
-          break;
-        case "tension":
-          gsap.to(stateEls.tension, { opacity: 1, duration: 0.5 });
-          break;
-        case "gold":
-          gsap.to(stateEls.score, { opacity: 1, duration: 0.6 });
-          if (scoreRef.current) {
-            gsap.fromTo(
-              scoreRef.current,
-              { innerText: "0" },
-              {
-                innerText: "90.25",
-                duration: 2,
-                ease: "power2.out",
-                snap: { innerText: 0.01 },
-                onUpdate() {
-                  if (scoreRef.current) {
-                    scoreRef.current.textContent = parseFloat(
-                      scoreRef.current.innerText || "0",
-                    ).toFixed(2);
-                  }
-                },
-              },
-            );
-          }
-          break;
-        case "podium":
-          gsap.to(stateEls.score, { opacity: 1, duration: 0.3 });
-          if (scoreRef.current) scoreRef.current.textContent = "90.25";
-          if (compRef.current) {
-            gsap.to(compRef.current, { opacity: 1, duration: 0.5, delay: 0.2 });
-          }
-          if (barChoiRef.current) {
-            gsap.to(barChoiRef.current, { width: "82.5%", duration: 1, delay: 0.4, ease: "power2.out" });
-          }
-          if (barKimRef.current) {
-            gsap.to(barKimRef.current, { width: "60%", duration: 1, delay: 0.55, ease: "power2.out" });
-          }
-          if (barOnoRef.current) {
-            gsap.to(barOnoRef.current, { width: "30%", duration: 1, delay: 0.7, ease: "power2.out" });
-          }
-          break;
-      }
+    // Show active center display
+    switch (state.centerDisplay) {
+      case "setup":
+        if (stateEls.setup) stateEls.setup.style.opacity = "1";
+        break;
+      case "crash1":
+        if (stateEls.crash1) stateEls.crash1.style.opacity = "1";
+        break;
+      case "crash2":
+        if (stateEls.crash2) stateEls.crash2.style.opacity = "1";
+        break;
+      case "tension":
+        if (stateEls.tension) stateEls.tension.style.opacity = "1";
+        break;
+      case "gold":
+        if (stateEls.score) stateEls.score.style.opacity = "1";
+        scoreMotion.set(0);
+        animate(scoreMotion, 90.25, { duration: 2, ease: "easeOut" });
+        break;
+      case "podium":
+        if (stateEls.score) stateEls.score.style.opacity = "1";
+        if (compRef.current) compRef.current.style.opacity = "1";
+        // Bar widths are set with a small delay via setTimeout for stagger effect
+        // CSS transition on .compBarFill handles the animation
+        setTimeout(() => {
+          if (barChoiRef.current) barChoiRef.current.style.width = "82.5%";
+        }, 400);
+        setTimeout(() => {
+          if (barKimRef.current) barKimRef.current.style.width = "60%";
+        }, 550);
+        setTimeout(() => {
+          if (barOnoRef.current) barOnoRef.current.style.width = "30%";
+        }, 700);
+        break;
+    }
 
-      // Reset comparison when not in podium
-      if (state.centerDisplay !== "podium" && compRef.current) {
-        gsap.to(compRef.current, { opacity: 0, duration: 0.2 });
-        if (barChoiRef.current) gsap.set(barChoiRef.current, { width: 0 });
-        if (barKimRef.current) gsap.set(barKimRef.current, { width: 0 });
-        if (barOnoRef.current) gsap.set(barOnoRef.current, { width: 0 });
-      }
-    },
-    { dependencies: [state], scope: containerRef },
-  );
+    // Reset comparison when not in podium
+    if (state.centerDisplay !== "podium" && compRef.current) {
+      compRef.current.style.opacity = "0";
+      if (barChoiRef.current) barChoiRef.current.style.width = "0";
+      if (barKimRef.current) barKimRef.current.style.width = "0";
+      if (barOnoRef.current) barOnoRef.current.style.width = "0";
+    }
+  }, [state.centerDisplay, state.runDots, scoreMotion]);
 
   // Particle burst — fire only on transition to true
   useEffect(() => {
@@ -233,7 +200,7 @@ export default function ChoiVizRenderer({ state }: Props) {
   }, [state.particleBurst]);
 
   return (
-    <div ref={containerRef} className={styles.container}>
+    <div className={styles.container}>
       <div ref={particlesRef} className={styles.particlesContainer} />
 
       {/* Run tracker */}
@@ -280,7 +247,7 @@ export default function ChoiVizRenderer({ state }: Props) {
           <span className={styles.tensionText}>One run left</span>
         </div>
         <div ref={scoreStateRef} className={`${styles.displayState} ${styles.displayScore}`}>
-          <span ref={scoreRef} className={styles.scoreNumber}>0</span>
+          <motion.span className={styles.scoreNumber}>{scoreDisplay}</motion.span>
           <span className={styles.scoreLabel}>Run 3 &middot; Gold</span>
         </div>
       </div>

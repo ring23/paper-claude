@@ -1,6 +1,5 @@
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import { motion, useInView } from "framer-motion";
 import type { TypographicMomentData } from "../types/story";
 import styles from "./TypographicMoment.module.css";
 
@@ -9,50 +8,51 @@ interface Props {
   scrollerRef: React.RefObject<HTMLElement | null>;
 }
 
+const variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.2 } },
+} as const;
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" as const } },
+};
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
+};
+const widthGrow = {
+  hidden: { opacity: 0, width: 0 },
+  visible: { opacity: 1, width: 48, transition: { duration: 0.5, ease: "easeOut" as const } },
+};
+
 export default function TypographicMoment({ detail, scrollerRef }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const bigRef = useRef<HTMLSpanElement>(null);
-  const unitRef = useRef<HTMLSpanElement>(null);
-  const dividerRef = useRef<HTMLDivElement>(null);
-  const contextRef = useRef<HTMLParagraphElement>(null);
-
-  useGSAP(
-    () => {
-      if (!sectionRef.current || !scrollerRef.current) return;
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          scroller: scrollerRef.current,
-          start: "top 60%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      tl.to(bigRef.current, { opacity: 1, y: 0, duration: 0.8 }, 0)
-        .from(bigRef.current, { y: 30 }, 0)
-        .to(unitRef.current, { opacity: 1, duration: 0.6 }, 0.3)
-        .to(dividerRef.current, { opacity: 1, width: 48, duration: 0.5 }, 0.5)
-        .to(contextRef.current, { opacity: 1, y: 0, duration: 0.6 }, 0.7)
-        .from(contextRef.current, { y: 16 }, 0.7);
-    },
-    { dependencies: [detail, scrollerRef], scope: sectionRef },
-  );
+  const isInView = useInView(sectionRef, {
+    root: scrollerRef,
+    margin: "-40% 0px 0px 0px",
+    once: true,
+  });
 
   return (
-    <div ref={sectionRef} className={styles.section}>
-      <span ref={bigRef} className={styles.bigNumber}>
+    <motion.div
+      ref={sectionRef}
+      className={styles.section}
+      variants={variants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+    >
+      <motion.span variants={fadeUp} className={styles.bigNumber}>
         {detail.bigNumber}
-      </span>
-      <span ref={unitRef} className={styles.unit}>
+      </motion.span>
+      <motion.span variants={fadeIn} className={styles.unit}>
         {detail.unit}
-      </span>
-      <div ref={dividerRef} className={styles.divider} />
-      <p
-        ref={contextRef}
+      </motion.span>
+      <motion.div variants={widthGrow} className={styles.divider} />
+      <motion.p
+        variants={fadeUp}
         className={styles.context}
         dangerouslySetInnerHTML={{ __html: detail.context }}
       />
-    </div>
+    </motion.div>
   );
 }

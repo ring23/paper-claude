@@ -1,9 +1,7 @@
 import { useState, useCallback, useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import type { Athlete } from "../data/athletes";
-import type { VizState, StoryBeatData } from "../types/story";
+import type { VizState, StoryBeatData, StoryEmotion } from "../types/story";
 import { getStoryBeats } from "../data/storyBeats";
 import StoryBeat from "./StoryBeat";
 import StoryViz from "./StoryViz";
@@ -19,50 +17,42 @@ interface Props {
 }
 
 export default function StoryPanel({ athlete, scrollerRef }: Props) {
-  const [vizState, setVizState] = useState<VizState | null>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-
   const beats = getStoryBeats(athlete.id);
   const hasBeats = beats.length > 0;
+  const prefersReducedMotion = useReducedMotion();
+
+  // Initialize viz with first beat so the renderer mounts immediately
+  const [vizState, setVizState] = useState<VizState | null>(
+    hasBeats ? beats[0].vizState : null,
+  );
+  const [emotion, setEmotion] = useState<StoryEmotion>(
+    hasBeats ? beats[0].emotion : "neutral",
+  );
+  const heroRef = useRef<HTMLDivElement>(null);
 
   // Find the first humanDetail in beats (for the typographic moment)
   const humanDetail = beats.find((b) => b.humanDetail)?.humanDetail ?? null;
 
   const handleBeatActivate = useCallback((beat: StoryBeatData) => {
     setVizState(beat.vizState);
+    setEmotion(beat.emotion);
   }, []);
 
+  // Map emotion to CSS class
+  const emotionClass =
+    emotion === "crash" ? styles.emotionCrash
+    : emotion === "tension" ? styles.emotionTension
+    : emotion === "triumph" ? styles.emotionTriumph
+    : styles.emotionNeutral;
+
   // Hero parallax — fades up and out on scroll
-  useGSAP(
-    () => {
-      if (!heroRef.current || !scrollerRef.current) return;
-
-      gsap.to(heroRef.current, {
-        y: -80,
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          scroller: scrollerRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-    },
-    { dependencies: [scrollerRef] },
-  );
-
-  // Refresh ScrollTrigger when scroller is ready
-  useGSAP(
-    () => {
-      if (!scrollerRef.current) return;
-      // Small delay to let DOM settle after mount
-      const timer = setTimeout(() => ScrollTrigger.refresh(), 100);
-      return () => clearTimeout(timer);
-    },
-    { dependencies: [scrollerRef, athlete.id] },
-  );
+  const { scrollYProgress } = useScroll({
+    container: scrollerRef,
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   // If no beats, render the fallback (non-scrollytelling athletes)
   if (!hasBeats) {
@@ -98,13 +88,28 @@ export default function StoryPanel({ athlete, scrollerRef }: Props) {
     <div className={styles.panel}>
       {/* Hero section */}
       <div className={styles.hero}>
-        <div ref={heroRef} className={styles.heroContent}>
+        <motion.div
+          ref={heroRef}
+          className={styles.heroContent}
+          style={{
+            y: prefersReducedMotion ? 0 : heroY,
+            opacity: prefersReducedMotion ? 1 : heroOpacity,
+          }}
+        >
+          <span className={styles.heroFlag}>{athlete.flag}</span>
           <p className={styles.heroEyebrow}>
-            {athlete.flag} {athlete.country} &middot; {athlete.sport}
+            {athlete.country} &middot; {athlete.sport}
           </p>
-          <h1 className={styles.heroName}>{athlete.name.toUpperCase()}</h1>
+          <h1 className={styles.heroName}>
+            {athlete.name.split(" ").map((word, i) => (
+              <span key={i}>
+                {word.toUpperCase()}
+                {i < athlete.name.split(" ").length - 1 && <br />}
+              </span>
+            ))}
+          </h1>
           <p className={styles.heroHeadline}>{athlete.headline}</p>
-        </div>
+        </motion.div>
         <div className={styles.scrollHint}>
           <span>Scroll</span>
           <div className={styles.scrollArrow} />
@@ -113,6 +118,7 @@ export default function StoryPanel({ athlete, scrollerRef }: Props) {
 
       {/* Scrollytelling section */}
       <div className={styles.scrolly}>
+        <div className={`${styles.emotionOverlay} ${emotionClass}`} />
         <StoryViz athlete={athlete} vizState={vizState} />
         <div className={styles.stepsOverlay}>
           {beats.map((beat, i) => (
@@ -133,7 +139,7 @@ export default function StoryPanel({ athlete, scrollerRef }: Props) {
       )}
 
       {/* Footer */}
-      <div className={styles.footer}>
+      <div className={`${styles.footer} ${styles.darkTheme}`}>
         <HistoricCounter
           value={athlete.historicStat.value}
           unit={athlete.historicStat.unit}

@@ -42,7 +42,7 @@ Each athlete's story becomes a Pudding.cool-style scrollytelling experience. Bes
 | R3 | Career arc data + human-layer details (age, hometown, personal story) per athlete | Must-have |
 | R4 | Hub, alpine landscape, sky themes, and mini-nav stay untouched | Must-have |
 | R5 | All data is real, cited, and curated for each athlete's strongest narrative angle | Must-have |
-| R6 | Scroll animations orchestrated by GSAP ScrollTrigger (not CSS-only) | Must-have |
+| R6 | Scroll animations orchestrated by Framer Motion scroll APIs (useInView, useScroll) + CSS transitions | Must-have |
 | R7 | Rich motion graphics for climactic moments (gold bursts, score counters, particle effects) | Must-have |
 | R8 | Typographic interstitial moments for human-layer stats between viz beats | Nice-to-have |
 | R9 | Mobile-optimized — scrollytelling experience works well on phone-width viewports (390px+). Viz scales down, type remains readable, touch-friendly | Must-have |
@@ -74,7 +74,7 @@ Each athlete's story becomes a Pudding.cool-style scrollytelling experience. Bes
 | R3 | Career arc data + human-layer details per athlete | Must-have | ✅ |
 | R4 | Hub, alpine landscape, sky themes, and mini-nav stay untouched | Must-have | ✅ |
 | R5 | All data is real, cited, and curated for each athlete's strongest narrative angle | Must-have | ✅ |
-| R6 | Scroll animations orchestrated by GSAP ScrollTrigger | Must-have | ✅ |
+| R6 | Scroll animations orchestrated by Framer Motion scroll APIs | Must-have | ✅ |
 | R7 | Rich motion graphics for climactic moments | Must-have | ✅ |
 | R8 | Typographic interstitial moments for human-layer stats | Nice-to-have | ✅ |
 | R9 | Mobile-optimized — scrollytelling works on 390px+ viewports, readable type, touch-friendly | Must-have | ✅ |

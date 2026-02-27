@@ -60,7 +60,8 @@ export default function StoryPanel({ athlete, scrollerRef }: Props) {
       <div className={styles.fallback}>
         <div className={styles.fallbackHero}>
           <p className={styles.heroEyebrow}>
-            {athlete.flag} {athlete.country} &middot; {athlete.sport}
+            <img src={`https://flagcdn.com/w40/${athlete.countryCode}.png`} alt={athlete.country} width={20} height={15} style={{ verticalAlign: 'middle', borderRadius: 2, marginRight: 6 }} />
+            {athlete.country} &middot; {athlete.sport}
           </p>
           <h1 className={styles.heroName}>{athlete.name.toUpperCase()}</h1>
           <p className={styles.heroHeadline}>{athlete.headline}</p>
@@ -96,7 +97,30 @@ export default function StoryPanel({ athlete, scrollerRef }: Props) {
             opacity: prefersReducedMotion ? 1 : heroOpacity,
           }}
         >
-          <span className={styles.heroFlag}>{athlete.flag}</span>
+          {/* Athlete avatar */}
+          <div
+            className={styles.heroAvatar}
+            style={{
+              background: `linear-gradient(135deg, ${athlete.colors.primary}, ${athlete.colors.secondary})`,
+            }}
+          >
+            {athlete.avatar ? (
+              <img
+                src={athlete.avatar}
+                alt={athlete.name}
+                className={styles.heroAvatarImg}
+              />
+            ) : (
+              <span className={styles.heroAvatarInitial}>{athlete.initial}</span>
+            )}
+          </div>
+          <img
+            className={styles.heroFlag}
+            src={`https://flagcdn.com/w80/${athlete.countryCode}.png`}
+            alt={athlete.country}
+            width={40}
+            height={30}
+          />
           <p className={styles.heroEyebrow}>
             {athlete.country} &middot; {athlete.sport}
           </p>

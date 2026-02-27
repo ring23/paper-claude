@@ -58,9 +58,40 @@
   text-align: center;
 }
 
+.heroAvatar {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  padding: 3px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+}
+
+.heroAvatarImg {
+  width: 122px;
+  height: 122px;
+  border-radius: 50%;
+  display: block;
+}
+
+.heroAvatarInitial {
+  width: 122px;
+  height: 122px;
+  border-radius: 50%;
+  background: #0B1726;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 40px;
+  color: #E8E4DE;
+}
+
 .heroFlag {
-  font-size: 32px;
-  margin-bottom: 4px;
+  display: block;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .heroEyebrow {
@@ -259,6 +290,23 @@
   .hero {
     padding: 0 var(--space-lg);
     min-height: 100dvh;
+  }
+
+  .heroAvatar {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 16px;
+  }
+
+  .heroAvatarImg {
+    width: 90px;
+    height: 90px;
+  }
+
+  .heroAvatarInitial {
+    width: 90px;
+    height: 90px;
+    font-size: 32px;
   }
 
   .stepsOverlay {

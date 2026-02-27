@@ -39,40 +39,37 @@
   display: none;
 }
 
-/* Persistent floating athlete avatar — top-right of story panel */
+/* Persistent floating athlete avatar — centered in hero */
 .floatingAvatar {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 50;
   pointer-events: none;
+  display: none;
 }
 
 .floatingAvatarRing {
-  width: 48px;
-  height: 48px;
+  width: 128px;
+  height: 128px;
   border-radius: 50%;
-  padding: 2px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  padding: 3px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
 }
 
 .floatingAvatarImg {
-  width: 44px;
-  height: 44px;
+  width: 122px;
+  height: 122px;
   border-radius: 50%;
   display: block;
 }
 
 .floatingAvatarInitial {
-  width: 44px;
-  height: 44px;
+  width: 122px;
+  height: 122px;
   border-radius: 50%;
   background: #0B1726;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Archivo Black', sans-serif;
-  font-size: 18px;
+  font-size: 40px;
   color: #E8E4DE;
 }
 
@@ -109,24 +106,19 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  .floatingAvatar {
-    top: 16px;
-    right: 16px;
-  }
-
   .floatingAvatarRing {
-    width: 40px;
-    height: 40px;
+    width: 96px;
+    height: 96px;
   }
 
   .floatingAvatarImg {
-    width: 36px;
-    height: 36px;
+    width: 90px;
+    height: 90px;
   }
 
   .floatingAvatarInitial {
-    width: 36px;
-    height: 36px;
-    font-size: 15px;
+    width: 90px;
+    height: 90px;
+    font-size: 32px;
   }
 }

@@ -107,6 +107,7 @@ export interface Athlete {
   name: string;
   country: string;
   flag: string;
+  countryCode: string;
   sport: string;
   colors: { primary: string; secondary: string };
   avatar: string | null;
@@ -131,6 +132,7 @@ export const athletes: Athlete[] = [
     name: "Lucas Pinheiro Braathen",
     country: "Brazil",
     flag: "\u{1F1E7}\u{1F1F7}",
+    countryCode: "br",
     sport: "Alpine Skiing",
     colors: { primary: "#009B3A", secondary: "#FFDF00" },
     avatar: "/images/avatars/lucas-pinheiro-braathen.png",
@@ -180,6 +182,7 @@ export const athletes: Athlete[] = [
     name: "Jack Hughes",
     country: "USA",
     flag: "\u{1F1FA}\u{1F1F8}",
+    countryCode: "us",
     sport: "Ice Hockey",
     colors: { primary: "#B31942", secondary: "#0A3161" },
     avatar: "/images/avatars/jack-hughes-avatar.png",
@@ -248,6 +251,7 @@ export const athletes: Athlete[] = [
     name: "Alysa Liu",
     country: "USA",
     flag: "\u{1F1FA}\u{1F1F8}",
+    countryCode: "us",
     sport: "Figure Skating",
     colors: { primary: "#B31942", secondary: "#0A3161" },
     avatar: "/images/avatars/alysa-liu.png",
@@ -295,6 +299,7 @@ export const athletes: Athlete[] = [
     name: "Elana Meyers Taylor",
     country: "USA",
     flag: "\u{1F1FA}\u{1F1F8}",
+    countryCode: "us",
     sport: "Bobsled",
     colors: { primary: "#B31942", secondary: "#0A3161" },
     avatar: "/images/avatars/elana-meyers-taylor.png",
@@ -364,6 +369,7 @@ export const athletes: Athlete[] = [
     name: "Johannes Hoesflot Klaebo",
     country: "Norway",
     flag: "\u{1F1F3}\u{1F1F4}",
+    countryCode: "no",
     sport: "X-Country Skiing",
     colors: { primary: "#BA0C2F", secondary: "#00205B" },
     avatar: "/images/avatars/johannes-klaebo.png",
@@ -431,6 +437,7 @@ export const athletes: Athlete[] = [
     name: "Choi Gaon",
     country: "South Korea",
     flag: "\u{1F1F0}\u{1F1F7}",
+    countryCode: "kr",
     sport: "Snowboard Halfpipe",
     colors: { primary: "#CD2E3A", secondary: "#0047A0" },
     avatar: "/images/avatars/choi-gaon.png",

@@ -1,0 +1,429 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 680px;
+  padding: 0 32px;
+}
+
+/* --- Fuse timeline --- */
+.fuseTimeline {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  max-width: 520px;
+}
+
+.fuseNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1;
+}
+
+.fuseCircle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--slate, #3D5A73);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--slate, #3D5A73);
+  background: transparent;
+  transition: border-color 0.5s, background 0.5s, box-shadow 0.5s, color 0.5s;
+}
+
+.fuseLabel {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+  transition: color 0.5s;
+}
+
+.fuseLineWrap {
+  flex: 1;
+  height: 3px;
+  background: rgba(61, 90, 115, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.fuseFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #BA0C2F 0%, #E4C45A 100%);
+  box-shadow: 0 0 12px rgba(186, 12, 47, 0.4);
+  transition: width 0.8s ease-out;
+}
+
+/* --- Event slots --- */
+.eventSlots {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 560px;
+}
+
+.eventSlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 76px;
+}
+
+.eventMedal {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(61, 90, 115, 0.3);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: border-color 0.4s, background 0.4s, box-shadow 0.4s, transform 0.3s;
+}
+
+.eventMedalLit {
+  border-color: #C6982B;
+  background: linear-gradient(135deg, #C6982B 0%, #E4C45A 100%);
+  box-shadow: 0 0 16px rgba(198, 152, 43, 0.4);
+}
+
+.eventMedalStar {
+  opacity: 0;
+  color: #070D18;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  transition: opacity 0.3s;
+}
+
+.eventName {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+  text-align: center;
+  line-height: 1.3;
+  transition: color 0.4s;
+}
+
+/* --- Center display --- */
+.centerDisplay {
+  position: relative;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.displayState {
+  position: absolute;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s;
+  width: 100%;
+}
+
+/* Intro */
+.displayIntro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.introBig {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 48px;
+  color: #E8E2D8;
+  letter-spacing: -0.02em;
+}
+
+.introSub {
+  font-size: 15px;
+  color: #6B7D8D;
+  font-weight: 400;
+}
+
+/* PyeongChang / Beijing counts */
+.displayGamesCount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.gamesCountNumber {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(80px, 12vw, 140px);
+  font-weight: 700;
+  color: var(--gold, #C6982B);
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(198, 152, 43, 0.3);
+}
+
+.gamesCountLabel {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #E4C45A;
+}
+
+/* Milano progress */
+.displayMilano {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.milanoGoldCount {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(100px, 15vw, 180px);
+  font-weight: 700;
+  color: var(--gold, #C6982B);
+  line-height: 1;
+  text-shadow: 0 0 80px rgba(198, 152, 43, 0.35);
+}
+
+.milanoLabel {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #E4C45A;
+}
+
+/* Record tie */
+.displayRecordTie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.recordTieNumber {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(80px, 12vw, 140px);
+  font-weight: 700;
+  color: var(--gold, #C6982B);
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(198, 152, 43, 0.3);
+}
+
+.recordTieLabel {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #E4C45A;
+}
+
+.recordTieSub {
+  font-size: 13px;
+  color: #6B7D8D;
+  font-weight: 400;
+}
+
+/* Record break */
+.displayRecordBreak {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.recordBreakNumber {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(100px, 15vw, 180px);
+  font-weight: 700;
+  color: var(--gold, #C6982B);
+  line-height: 1;
+  text-shadow: 0 0 100px rgba(198, 152, 43, 0.5);
+  animation: recordPulse 2s ease-in-out 1;
+}
+
+.recordBreakLabel {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #E4C45A;
+}
+
+@keyframes recordPulse {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Career total */
+.displayCareerTotal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.careerTotalNumber {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(80px, 12vw, 140px);
+  font-weight: 700;
+  color: var(--gold, #C6982B);
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(198, 152, 43, 0.3);
+}
+
+.careerTotalLabel {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #E4C45A;
+}
+
+/* --- Leaderboard --- */
+.leaderboard {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.leaderRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.leaderName {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7D8D;
+  width: 130px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.leaderBarTrack {
+  flex: 1;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.leaderBarFill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  transition: width 1s ease-out;
+}
+
+.barKlaebo {
+  background: linear-gradient(90deg, #BA0C2F 0%, #E4C45A 100%);
+}
+
+.barLegend {
+  background: linear-gradient(90deg, #5A7A90 0%, #8A9AA8 100%);
+}
+
+.barHeiden {
+  background: linear-gradient(90deg, #6B7D8D 0%, #8A9AA8 100%);
+}
+
+.leaderCount {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #070D18;
+}
+
+/* --- Particles --- */
+.particlesContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleBurst var(--duration) var(--delay) ease-out forwards;
+}
+
+@keyframes particleBurst {
+  from { opacity: 1; transform: translate(0, 0) scale(1); }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: none;
+    padding: 0 16px;
+    gap: 32px;
+  }
+
+  .eventSlots {
+    max-width: none;
+  }
+
+  .eventSlot {
+    width: 60px;
+  }
+
+  .eventMedal {
+    width: 28px;
+    height: 28px;
+  }
+
+  .eventName {
+    font-size: 8px;
+  }
+
+  .leaderName {
+    width: 90px;
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,465 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  width: 100%;
+  max-width: 680px;
+  padding: 0 32px;
+}
+
+/* --- Scoreboard --- */
+.scoreboard {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.teamBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100px;
+}
+
+.teamLabel {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.teamLabelUSA {
+  color: #B31942;
+}
+
+.teamLabelCAN {
+  color: #FF0000;
+}
+
+.teamScore {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 56px;
+  font-weight: 700;
+  color: #E8E2D8;
+  line-height: 1;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.scoreGlow {
+  color: var(--gold, #C6982B);
+  text-shadow: 0 0 30px rgba(198, 152, 43, 0.4);
+}
+
+.scoreDivider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 20px;
+}
+
+.scoreDash {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: #3D5A73;
+  line-height: 1;
+}
+
+.periodLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+  transition: color 0.3s;
+}
+
+.periodHighlight {
+  color: var(--gold, #C6982B);
+}
+
+/* --- Drought counter --- */
+.droughtCounter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.droughtNumber {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(80px, 14vw, 160px);
+  font-weight: 700;
+  color: #3D5A73;
+  line-height: 1;
+  transition: color 0.6s, text-shadow 0.6s;
+}
+
+.droughtNumberActive {
+  color: #B31942;
+  text-shadow: 0 0 60px rgba(179, 25, 66, 0.3);
+}
+
+.droughtLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+/* --- Save gauge --- */
+.saveGaugeWrap {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.saveGaugeHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.saveGaugeTitle {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+.saveGaugeNumber {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #0A3161;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(10, 49, 97, 0.3);
+}
+
+.saveGaugeTrack {
+  width: 100%;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.saveGaugeFill {
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #0A3161 0%, #1A5C9E 60%, #B31942 100%);
+  width: 0%;
+  transition: width 1.8s ease-out;
+  position: relative;
+}
+
+.saveGaugeFill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15));
+  border-radius: 0 12px 12px 0;
+}
+
+.saveGaugeCaption {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: #6B7D8D;
+  text-align: center;
+}
+
+/* --- Center display --- */
+.centerDisplay {
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.displayState {
+  position: absolute;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+/* Miracle state */
+.displayMiracle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.miracleYear {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(72px, 14vw, 140px);
+  color: #E8E2D8;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(232, 226, 216, 0.15);
+}
+
+.miracleSub {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+/* Drought state */
+.displayDrought {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.droughtSub {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #6B7D8D;
+  letter-spacing: 0.08em;
+}
+
+/* Pregame state */
+.displayPregame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.pregameFlags {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.pregameFlag {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 36px;
+  letter-spacing: 0.05em;
+}
+
+.pregameFlagUSA {
+  color: #B31942;
+}
+
+.pregameFlagCAN {
+  color: #FF0000;
+}
+
+.pregameVs {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #3D5A73;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.pregameRink {
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, #B31942, #3D5A73, #FF0000);
+  border-radius: 1px;
+}
+
+.pregameEvent {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+/* Goal flash */
+.displayGoal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.goalScorer {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(44px, 10vw, 72px);
+  color: #B31942;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(179, 25, 66, 0.3);
+}
+
+.goalLabel {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #E4C45A;
+  animation: goalFlash 0.6s ease-out;
+}
+
+@keyframes goalFlash {
+  0% { opacity: 0; transform: scale(1.6); }
+  50% { opacity: 1; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.goalTime {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #6B7D8D;
+}
+
+/* P2 wall / saves */
+.displayWall {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.wallName {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 28px;
+  color: #0A3161;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 30px rgba(10, 49, 97, 0.25);
+}
+
+.wallSub {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+/* OT setup */
+.displayOT {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.otBig {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(36px, 8vw, 56px);
+  color: var(--gold, #C6982B);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  animation: otPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes otPulse {
+  0%, 100% { opacity: 0.7; text-shadow: 0 0 20px rgba(198, 152, 43, 0.2); }
+  50% { opacity: 1; text-shadow: 0 0 40px rgba(198, 152, 43, 0.5); }
+}
+
+.otSub {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+/* Coda */
+.displayCoda {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.codaText {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(24px, 5vw, 36px);
+  color: #E8E2D8;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.codaSub {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gold, #C6982B);
+  letter-spacing: 0.1em;
+}
+
+/* --- Particles --- */
+.particlesContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleBurst var(--duration) var(--delay) ease-out forwards;
+}
+
+@keyframes particleBurst {
+  from { opacity: 1; transform: translate(0, 0) scale(1); }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); }
+}
+
+/* Star-shaped particles for variety */
+.particleStar {
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: none;
+    padding: 0 16px;
+    gap: 32px;
+  }
+
+  .teamBlock {
+    width: 70px;
+  }
+
+  .saveGaugeWrap {
+    max-width: none;
+  }
+}

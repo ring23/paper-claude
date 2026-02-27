@@ -35,6 +35,7 @@
   font-weight: 700;
   color: var(--slate, #3D5A73);
   position: relative;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
 }
 
 .dotX {
@@ -42,10 +43,11 @@
   font-size: 26px;
   opacity: 0;
   color: #CD2E3A;
+  transition: opacity 0.3s;
 }
 
 .dotNum {
-  transition: opacity 0.1s;
+  transition: opacity 0.3s, color 0.3s;
 }
 
 .runLabel {
@@ -78,6 +80,7 @@
   position: absolute;
   text-align: center;
   opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .displaySetup {
@@ -171,6 +174,7 @@
   flex-direction: column;
   gap: 14px;
   opacity: 0;
+  transition: opacity 0.5s;
 }
 
 .compRow {
@@ -206,6 +210,7 @@
   align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
+  transition: width 1s ease-out;
 }
 
 .barGold {
@@ -240,6 +245,40 @@
 
 .particle {
   position: absolute;
+  left: 50%;
+  top: 45%;
   border-radius: 50%;
   pointer-events: none;
+  animation: particleBurst var(--duration) var(--delay) ease-out forwards;
+}
+
+@keyframes particleBurst {
+  from { opacity: 1; transform: translate(0, 0) scale(1); }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: none;
+    padding: 0 16px;
+    gap: 32px;
+  }
+
+  .comparison {
+    max-width: none;
+  }
+
+  .compName {
+    width: 80px;
+    font-size: 11px;
+  }
+
+  .runDot {
+    width: 40px;
+    height: 40px;
+  }
+
+  .runLine {
+    width: 40px;
+  }
 }

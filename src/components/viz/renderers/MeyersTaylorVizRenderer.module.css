@@ -1,0 +1,349 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 680px;
+  padding: 0 32px;
+}
+
+/* --- Career timeline --- */
+.timeline {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  max-width: 560px;
+}
+
+.timelineNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.medalDot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: border-color 0.5s, background 0.5s, box-shadow 0.5s, transform 0.4s;
+  transform: scale(0.7);
+  opacity: 0.3;
+}
+
+.medalDotLit {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.medalInner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.5s, background 0.5s;
+}
+
+.medalInnerLit {
+  opacity: 1;
+}
+
+.timelineYear {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #6B7D8D;
+  transition: color 0.4s;
+}
+
+.timelineYearActive {
+  color: #E8E2D8;
+}
+
+.timelineLine {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  min-width: 20px;
+}
+
+/* Second medal dot for Beijing (stacked) */
+.medalStack {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.medalStack .medalDot {
+  width: 30px;
+  height: 30px;
+}
+
+.medalStack .medalInner {
+  width: 16px;
+  height: 16px;
+}
+
+/* --- Center display --- */
+.centerDisplay {
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.displayState {
+  position: absolute;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Intro state */
+.introState {
+  gap: 8px;
+}
+
+.introBig {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 48px;
+  color: #E8E2D8;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.introSub {
+  font-size: 15px;
+  color: #6B7D8D;
+  font-weight: 400;
+}
+
+/* Olympics stop state */
+.olympicsState {
+  gap: 12px;
+}
+
+.olympicsYear {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 64px;
+  line-height: 1;
+  color: #E8E2D8;
+  letter-spacing: -0.02em;
+}
+
+.olympicsCity {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+.olympicsMedal {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.medalIcon {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Gap state */
+.gapState {
+  gap: 16px;
+}
+
+.gapText {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: #8A9CAA;
+  line-height: 1.6;
+  font-style: italic;
+  max-width: 400px;
+}
+
+.gapAge {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(179, 25, 66, 0.6);
+}
+
+/* Tension state */
+.tensionState {
+  gap: 16px;
+}
+
+.marginDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.marginValue {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(72px, 12vw, 120px);
+  font-weight: 700;
+  color: #B31942;
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(179, 25, 66, 0.3);
+}
+
+.marginLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7D8D;
+  letter-spacing: 0.1em;
+}
+
+.heatPulse {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pulseRing {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #B31942;
+  box-shadow: 0 0 30px rgba(179, 25, 66, 0.3), inset 0 0 30px rgba(179, 25, 66, 0.15);
+  animation: pulseRed 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseRed {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+
+.heatLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #B31942;
+}
+
+/* Gold state */
+.goldState {
+  gap: 6px;
+}
+
+.goldTime {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(100px, 15vw, 180px);
+  font-weight: 700;
+  color: var(--gold, #C6982B);
+  line-height: 1;
+  text-shadow: 0 0 80px rgba(198, 152, 43, 0.35);
+}
+
+.goldLabel {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #E4C45A;
+}
+
+/* --- Age counter --- */
+.ageCounter {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.ageCounterVisible {
+  opacity: 1;
+}
+
+.ageLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+.ageValue {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #B31942;
+  line-height: 1;
+  transition: color 0.4s;
+}
+
+.ageValueGold {
+  color: var(--gold, #C6982B);
+}
+
+/* --- Particles --- */
+.particlesContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleBurst var(--duration) var(--delay) ease-out forwards;
+}
+
+@keyframes particleBurst {
+  from { opacity: 1; transform: translate(0, 0) scale(1); }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: none;
+    padding: 0 16px;
+    gap: 32px;
+  }
+
+  .timeline {
+    max-width: none;
+    gap: 4px;
+  }
+}

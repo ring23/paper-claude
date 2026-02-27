@@ -1,0 +1,350 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  max-width: 680px;
+  padding: 0 32px;
+}
+
+/* --- Drought counter --- */
+.droughtCounter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.droughtNumber {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(90px, 14vw, 160px);
+  font-weight: 700;
+  color: #E8E2D8;
+  line-height: 1;
+  transition: color 0.5s, text-shadow 0.5s;
+}
+
+.droughtNumberTension {
+  color: #CD2E3A;
+  text-shadow: 0 0 60px rgba(205, 46, 58, 0.25);
+}
+
+.droughtUnit {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+.droughtContext {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #6B7D8D;
+  opacity: 0.7;
+  text-align: center;
+  max-width: 260px;
+}
+
+/* --- Center display --- */
+.centerDisplay {
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.displayState {
+  position: absolute;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+/* Intro state */
+.displayIntro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.introBigYear {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 64px;
+  color: #E8E2D8;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.introSub {
+  font-size: 15px;
+  color: #6B7D8D;
+  font-weight: 400;
+}
+
+/* Gold state */
+.displayGold {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.goldBigText {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(60px, 12vw, 120px);
+  color: var(--gold, #C6982B);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 0 0 80px rgba(198, 152, 43, 0.35);
+}
+
+.goldTime {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #E4C45A;
+  letter-spacing: 0.05em;
+}
+
+.goldCountry {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #009B3A;
+}
+
+/* --- Run bars --- */
+.runBars {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.runBarGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.runBarLabel {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+.runBarRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.runBarName {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7D8D;
+  width: 120px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.runBarTrack {
+  flex: 1;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.runBarFill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  transition: width 1s ease-out;
+}
+
+.barBraathen {
+  background: linear-gradient(90deg, #009B3A 0%, #FFDF00 100%);
+}
+
+.barOdermatt {
+  background: linear-gradient(90deg, #8A8A8A 0%, #B0B0B0 100%);
+}
+
+.barMeillard {
+  background: linear-gradient(90deg, #8B6914 0%, #A67C28 100%);
+}
+
+.runBarTime {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #070D18;
+}
+
+.runBarMargin {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #009B3A;
+  flex-shrink: 0;
+  width: 56px;
+}
+
+.runBarMarginSilver {
+  color: #6B7D8D;
+}
+
+/* Run 1 margin note */
+.marginNote {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: #6B7D8D;
+  opacity: 0.6;
+  text-align: center;
+  font-style: italic;
+}
+
+/* --- Podium comparison --- */
+.comparison {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.compRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.compName {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7D8D;
+  width: 140px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.compBarTrack {
+  flex: 1;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.compBarFill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  transition: width 1s ease-out;
+}
+
+.compBarGold {
+  background: linear-gradient(90deg, #009B3A 0%, #FFDF00 100%);
+}
+
+.compBarSilver {
+  background: linear-gradient(90deg, #8A8A8A 0%, #B0B0B0 100%);
+}
+
+.compBarBronze {
+  background: linear-gradient(90deg, #8B6914 0%, #A67C28 100%);
+}
+
+.compScore {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #070D18;
+}
+
+.compMargin {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7D8D;
+  flex-shrink: 0;
+  width: 56px;
+}
+
+/* --- Particles --- */
+.particlesContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleBurst var(--duration) var(--delay) ease-out forwards;
+}
+
+@keyframes particleBurst {
+  from { opacity: 1; transform: translate(0, 0) scale(1); }
+  to { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: none;
+    padding: 0 16px;
+    gap: 32px;
+  }
+
+  .runBars {
+    max-width: none;
+  }
+
+  .runBarName {
+    width: 80px;
+    font-size: 11px;
+  }
+
+  .compName {
+    width: 90px;
+    font-size: 11px;
+  }
+}

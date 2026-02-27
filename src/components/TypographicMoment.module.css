@@ -1,0 +1,51 @@
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 32px;
+  position: relative;
+}
+
+.bigNumber {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(120px, 25vw, 280px);
+  font-weight: 700;
+  line-height: 0.85;
+  color: #E8E2D8;
+  opacity: 0;
+}
+
+.unit {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(18px, 3vw, 32px);
+  font-weight: 300;
+  color: var(--mist, #7A95AA);
+  margin-top: 8px;
+  opacity: 0;
+}
+
+.divider {
+  width: 0;
+  height: 1px;
+  background: var(--slate, #3D5A73);
+  margin: 40px 0;
+  opacity: 0;
+}
+
+.context {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 400;
+  color: #6B7D8D;
+  max-width: 440px;
+  line-height: 1.6;
+  opacity: 0;
+}
+
+.context :global(strong) {
+  color: var(--gold, #C6982B);
+  font-weight: 700;
+}

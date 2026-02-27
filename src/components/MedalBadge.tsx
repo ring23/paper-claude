@@ -1,8 +1,15 @@
+import { motion } from "framer-motion";
 import styles from "./MedalBadge.module.css";
 
 export default function MedalBadge({ medal }: { medal: string }) {
   return (
-    <div className={styles.badge}>
+    <motion.div
+      className={styles.badge}
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+      whileHover={{ scale: 1.06 }}
+    >
       <div className={styles.icon}>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path
@@ -12,6 +19,6 @@ export default function MedalBadge({ medal }: { medal: string }) {
         </svg>
       </div>
       <span className={styles.label}>{medal.toUpperCase()} MEDAL</span>
-    </div>
+    </motion.div>
   );
 }

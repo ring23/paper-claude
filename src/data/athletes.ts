@@ -1,4 +1,4 @@
-import type { DataSource, SkyTheme } from "../types/viz";
+import type { AthleteTheme, DataSource, SkyTheme } from "../types/viz";
 
 // --- Per-athlete visualization data (discriminated union) ---
 
@@ -117,6 +117,7 @@ export interface Athlete {
   story: string;
   medal: "gold" | "silver" | "bronze";
   historicStat: { value: string; unit: string; context: string };
+  themes?: AthleteTheme[];
   vizData: AthleteVizData;
   skyTheme: SkyTheme;
   sources: DataSource[];
@@ -149,6 +150,7 @@ export const athletes: Athlete[] = [
       unit: "ever",
       context: "South American Winter Olympic medalist",
     },
+    themes: ["drought_breaker", "first_ever"],
     vizData: {
       type: "braathen",
       run1Time: "1:13.92",
@@ -196,6 +198,7 @@ export const athletes: Athlete[] = [
       unit: "years",
       context: "since last US hockey gold",
     },
+    themes: ["drought_breaker"],
     vizData: {
       type: "hughes",
       finalScore: { usa: 2, canada: 1, overtime: true },
@@ -263,6 +266,7 @@ export const athletes: Athlete[] = [
       unit: "years",
       context: "since last US women\u2019s skating gold",
     },
+    themes: ["drought_breaker", "comeback"],
     vizData: {
       type: "liu",
       totalScore: 226.79,
@@ -309,6 +313,7 @@ export const athletes: Athlete[] = [
       unit: "years old",
       context: "oldest individual Winter gold medalist",
     },
+    themes: ["age_outlier", "longevity"],
     vizData: {
       type: "meyers-taylor",
       totalTime: "3:57.93",
@@ -378,6 +383,7 @@ export const athletes: Athlete[] = [
       unit: "golds",
       context: "most by one athlete at a single Winter Olympics",
     },
+    themes: ["record_breaker"],
     vizData: {
       type: "klaebo",
       events2026: [
@@ -443,6 +449,7 @@ export const athletes: Athlete[] = [
       unit: "years old",
       context: "youngest halfpipe Olympic champion",
     },
+    themes: ["age_outlier", "first_ever", "comeback"],
     vizData: {
       type: "choi",
       runs: [

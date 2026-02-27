@@ -1,4 +1,102 @@
-.content {
+.panel {
+  /* Container for scrollytelling layout — no padding, full width */
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 var(--space-2xl);
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.heroEyebrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--mist);
+}
+
+.heroName {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 400;
+  font-size: clamp(40px, 8vw, 64px);
+  color: var(--alpine-navy);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.heroHeadline {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: clamp(18px, 2.5vw, 24px);
+  color: var(--gold);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  margin-top: 8px;
+  line-height: 1.3;
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: var(--space-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--mist);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.scrollArrow {
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(180deg, var(--mist) 0%, transparent 100%);
+  animation: pulseDown 2s ease-in-out infinite;
+}
+
+@keyframes pulseDown {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.3); }
+}
+
+/* ============================================
+   SCROLLY SECTION
+   ============================================ */
+.scrolly {
+  position: relative;
+}
+
+.stepsOverlay {
+  margin-top: -100vh;
+  position: relative;
+  z-index: 10;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
   padding: var(--space-2xl);
   display: flex;
   flex-direction: column;
@@ -6,70 +104,49 @@
   max-width: 680px;
 }
 
-.header {
+.footerBottom {
   display: flex;
-  align-items: center;
-  gap: var(--space-lg);
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-xl);
 }
 
-.nameBlock {
+/* ============================================
+   FALLBACK (non-scrollytelling athletes)
+   ============================================ */
+.fallback {
+  padding: var(--space-2xl);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-xl);
+  max-width: 680px;
 }
 
-.athleteName {
-  font-family: 'Archivo Black', sans-serif;
-  font-weight: 400;
-  font-size: 40px;
-  color: var(--alpine-navy);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+.fallbackHero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.meta {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  color: var(--slate);
+.fallbackBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
 }
 
-.headline {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 24px;
-  color: var(--gold);
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-  font-style: italic;
-}
-
-.achievement {
+.fallbackAchievement {
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: 16px;
   color: var(--slate);
-  margin-top: 6px;
   line-height: 1.5;
 }
 
-.statsRow {
-  display: flex;
-  gap: var(--space-md);
-}
-
-.story {
+.fallbackStory {
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 16px;
   color: var(--alpine-navy);
   line-height: 1.6;
   max-width: 600px;
-}
-
-.bottom {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-xl);
 }

@@ -34,3 +34,12 @@ export interface SkyTheme {
   mid: string;
   pale: string;
 }
+
+/** Controlled vocabulary for athlete narrative themes */
+export type AthleteTheme =
+  | "drought_breaker"
+  | "record_breaker"
+  | "age_outlier"
+  | "first_ever"
+  | "comeback"
+  | "longevity";

@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Athlete } from "../data/athletes";
 import MiniHub from "./MiniHub";
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export default function StoryView({ athlete, athletes, onSelect, onClose }: Props) {
+  const panelRef = useRef<HTMLDivElement>(null);
+
   return (
     <motion.div
       className={styles.storyView}
@@ -32,13 +35,14 @@ export default function StoryView({ athlete, athletes, onSelect, onClose }: Prop
       {/* Persistent frosted glass panel — stays mounted between athlete switches */}
       <motion.div
         className={styles.panel}
+        ref={panelRef}
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%", transition: { type: "spring", stiffness: 200, damping: 28, delay: 0.2 } }}
         transition={{ type: "spring", stiffness: 200, damping: 28 }}
       >
         <AnimatePresence mode="wait">
-          <StoryPanel key={athlete.id} athlete={athlete} />
+          <StoryPanel key={athlete.id} athlete={athlete} scrollerRef={panelRef} />
         </AnimatePresence>
       </motion.div>
     </motion.div>

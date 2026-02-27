@@ -1,7 +1,13 @@
-import { motion, type Target, type Variants } from "framer-motion";
+import { useState, useCallback, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Athlete } from "../data/athletes";
-import AvatarCard from "./AvatarCard";
-import AthleteViz from "./viz/AthleteViz";
+import type { VizState, StoryBeatData } from "../types/story";
+import { getStoryBeats } from "../data/storyBeats";
+import StoryBeat from "./StoryBeat";
+import StoryViz from "./StoryViz";
+import TypographicMoment from "./TypographicMoment";
 import HistoricCounter from "./HistoricCounter";
 import MedalBadge from "./MedalBadge";
 import SourceAttribution from "./SourceAttribution";
@@ -9,82 +15,135 @@ import styles from "./StoryPanel.module.css";
 
 interface Props {
   athlete: Athlete;
+  scrollerRef: React.RefObject<HTMLElement | null>;
 }
 
-const staggerDelays = {
-  name: 0,
-  headline: 0.1,
-  achievement: 0.2,
-  stats: 0.32,
-  story: 0.5,
-  counter: 0.6,
-  sources: 0.7,
-};
+export default function StoryPanel({ athlete, scrollerRef }: Props) {
+  const [vizState, setVizState] = useState<VizState | null>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
 
-const fadeUpEase: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
+  const beats = getStoryBeats(athlete.id);
+  const hasBeats = beats.length > 0;
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  visible: (custom: number, _current: Target, _velocity: Target) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, delay: custom, ease: fadeUpEase },
-  }),
-};
+  // Find the first humanDetail in beats (for the typographic moment)
+  const humanDetail = beats.find((b) => b.humanDetail)?.humanDetail ?? null;
 
-export default function StoryPanel({ athlete }: Props) {
-  return (
-    <motion.div
-      className={styles.content}
-      initial="hidden"
-      animate="visible"
-      exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-    >
-      {/* Athlete header */}
-      <motion.div className={styles.header} variants={fadeUp} custom={staggerDelays.name}>
-        <AvatarCard athlete={athlete} size="lg" isActive hideLabels />
-        <div className={styles.nameBlock}>
-          <h2 className={styles.athleteName}>{athlete.name.toUpperCase()}</h2>
-          <p className={styles.meta}>
-            {athlete.country} &middot; {athlete.sport}
+  const handleBeatActivate = useCallback((beat: StoryBeatData) => {
+    setVizState(beat.vizState);
+  }, []);
+
+  // Hero parallax — fades up and out on scroll
+  useGSAP(
+    () => {
+      if (!heroRef.current || !scrollerRef.current) return;
+
+      gsap.to(heroRef.current, {
+        y: -80,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          scroller: scrollerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    },
+    { dependencies: [scrollerRef] },
+  );
+
+  // Refresh ScrollTrigger when scroller is ready
+  useGSAP(
+    () => {
+      if (!scrollerRef.current) return;
+      // Small delay to let DOM settle after mount
+      const timer = setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => clearTimeout(timer);
+    },
+    { dependencies: [scrollerRef, athlete.id] },
+  );
+
+  // If no beats, render the fallback (non-scrollytelling athletes)
+  if (!hasBeats) {
+    return (
+      <div className={styles.fallback}>
+        <div className={styles.fallbackHero}>
+          <p className={styles.heroEyebrow}>
+            {athlete.flag} {athlete.country} &middot; {athlete.sport}
           </p>
+          <h1 className={styles.heroName}>{athlete.name.toUpperCase()}</h1>
+          <p className={styles.heroHeadline}>{athlete.headline}</p>
         </div>
-      </motion.div>
+        <div className={styles.fallbackBody}>
+          <p className={styles.fallbackAchievement}>{athlete.achievement}</p>
+          <p className={styles.fallbackStory}>{athlete.story}</p>
+          <div className={styles.footer}>
+            <HistoricCounter
+              value={athlete.historicStat.value}
+              unit={athlete.historicStat.unit}
+              context={athlete.historicStat.context}
+            />
+            <div className={styles.footerBottom}>
+              <MedalBadge medal={athlete.medal} />
+              <SourceAttribution sources={athlete.sources} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-      {/* Gold headline */}
-      <motion.div variants={fadeUp} custom={staggerDelays.headline}>
-        <h3 className={styles.headline}>{athlete.headline}</h3>
-      </motion.div>
+  return (
+    <div className={styles.panel}>
+      {/* Hero section */}
+      <div className={styles.hero}>
+        <div ref={heroRef} className={styles.heroContent}>
+          <p className={styles.heroEyebrow}>
+            {athlete.flag} {athlete.country} &middot; {athlete.sport}
+          </p>
+          <h1 className={styles.heroName}>{athlete.name.toUpperCase()}</h1>
+          <p className={styles.heroHeadline}>{athlete.headline}</p>
+        </div>
+        <div className={styles.scrollHint}>
+          <span>Scroll</span>
+          <div className={styles.scrollArrow} />
+        </div>
+      </div>
 
-      {/* Achievement */}
-      <motion.div variants={fadeUp} custom={staggerDelays.achievement}>
-        <p className={styles.achievement}>{athlete.achievement}</p>
-      </motion.div>
+      {/* Scrollytelling section */}
+      <div className={styles.scrolly}>
+        <StoryViz athlete={athlete} vizState={vizState} />
+        <div className={styles.stepsOverlay}>
+          {beats.map((beat, i) => (
+            <StoryBeat
+              key={beat.id}
+              beat={beat}
+              index={i}
+              onActivate={handleBeatActivate}
+              scrollerRef={scrollerRef}
+            />
+          ))}
+        </div>
+      </div>
 
-      {/* Per-athlete visualization */}
-      <motion.div className={styles.statsRow} variants={fadeUp} custom={staggerDelays.stats}>
-        <AthleteViz athlete={athlete} />
-      </motion.div>
+      {/* Typographic moment */}
+      {humanDetail && (
+        <TypographicMoment detail={humanDetail} scrollerRef={scrollerRef} />
+      )}
 
-      {/* Story text */}
-      <motion.p className={styles.story} variants={fadeUp} custom={staggerDelays.story}>
-        {athlete.story}
-      </motion.p>
-
-      {/* Historic counter + medal */}
-      <motion.div className={styles.bottom} variants={fadeUp} custom={staggerDelays.counter}>
+      {/* Footer */}
+      <div className={styles.footer}>
         <HistoricCounter
           value={athlete.historicStat.value}
           unit={athlete.historicStat.unit}
           context={athlete.historicStat.context}
         />
-        <MedalBadge medal={athlete.medal} />
-      </motion.div>
-
-      {/* Source attribution */}
-      <motion.div variants={fadeUp} custom={staggerDelays.sources}>
-        <SourceAttribution sources={athlete.sources} />
-      </motion.div>
-    </motion.div>
+        <div className={styles.footerBottom}>
+          <MedalBadge medal={athlete.medal} />
+          <SourceAttribution sources={athlete.sources} />
+        </div>
+      </div>
+    </div>
   );
 }

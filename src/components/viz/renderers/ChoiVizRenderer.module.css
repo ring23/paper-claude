@@ -1,0 +1,245 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  max-width: 680px;
+  padding: 0 32px;
+}
+
+/* --- Run tracker --- */
+.runTracker {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.runNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.runDot {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--slate, #3D5A73);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--slate, #3D5A73);
+  position: relative;
+}
+
+.dotX {
+  position: absolute;
+  font-size: 26px;
+  opacity: 0;
+  color: #CD2E3A;
+}
+
+.dotNum {
+  transition: opacity 0.1s;
+}
+
+.runLabel {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6B7D8D;
+}
+
+.runLine {
+  width: 80px;
+  height: 2px;
+  background: var(--slate, #3D5A73);
+  margin-bottom: 28px;
+  opacity: 0.4;
+}
+
+/* --- Center display --- */
+.centerDisplay {
+  position: relative;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.displayState {
+  position: absolute;
+  text-align: center;
+  opacity: 0;
+}
+
+.displaySetup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.setupBig {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 48px;
+  color: #E8E2D8;
+  letter-spacing: -0.02em;
+}
+
+.setupSub {
+  font-size: 15px;
+  color: #6B7D8D;
+  font-weight: 400;
+}
+
+.displayCrash {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 140px;
+  font-weight: 700;
+  color: #CD2E3A;
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(205, 46, 58, 0.25);
+}
+
+.displayTension {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pulseRing {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid var(--gold, #C6982B);
+  box-shadow: 0 0 40px rgba(198, 152, 43, 0.35), inset 0 0 40px rgba(198, 152, 43, 0.35);
+  animation: pulseGold 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseGold {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+.tensionText {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold, #C6982B);
+}
+
+.displayScore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.scoreNumber {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(100px, 15vw, 180px);
+  font-weight: 700;
+  color: var(--gold, #C6982B);
+  line-height: 1;
+  text-shadow: 0 0 80px rgba(198, 152, 43, 0.35);
+}
+
+.scoreLabel {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #E4C45A;
+}
+
+/* --- Comparison bars --- */
+.comparison {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+}
+
+.compRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.compName {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7D8D;
+  width: 120px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.compBarTrack {
+  flex: 1;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.compBarFill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.barGold {
+  background: linear-gradient(90deg, #C6982B 0%, #E4C45A 100%);
+}
+
+.barSilver {
+  background: linear-gradient(90deg, #8A8A8A 0%, #B0B0B0 100%);
+}
+
+.barBronze {
+  background: linear-gradient(90deg, #8B6914 0%, #A67C28 100%);
+}
+
+.compScore {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #070D18;
+}
+
+/* --- Particles --- */
+.particlesContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}

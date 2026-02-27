@@ -1,0 +1,23 @@
+.vizPanel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.bgGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(198, 152, 43, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 1s;
+  pointer-events: none;
+}
+
+.bgGlowActive {
+  opacity: 0.5;
+}

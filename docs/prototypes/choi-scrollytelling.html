@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choi Gaon — First Light Scrollytelling Prototype</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --navy: #0B1D3A;
+      --navy-deep: #070D18;
+      --surface: #0E1722;
+      --gold: #C6982B;
+      --gold-light: #E4C45A;
+      --gold-glow: rgba(198, 152, 43, 0.35);
+      --red: #CD2E3A;
+      --red-dim: rgba(205, 46, 58, 0.25);
+      --slate: #3D5A73;
+      --mist: #7A95AA;
+      --text: #E8E2D8;
+      --text-dim: #6B7D8D;
+      --sky-deep: #201838;
+      --sky-mid: #4A6890;
+      --sky-pale: #D8B8C0;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: auto; }
+
+    body {
+      background: var(--navy-deep);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: linear-gradient(180deg, var(--sky-deep) 0%, var(--navy-deep) 100%);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 35%;
+      background: linear-gradient(180deg, transparent 0%, var(--navy-deep) 100%);
+      z-index: 1;
+    }
+
+    .hero-mountains {
+      position: absolute;
+      bottom: 8%;
+      left: 0;
+      right: 0;
+      height: 40%;
+      opacity: 0.12;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hero-sport {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+
+    .hero-flag {
+      font-size: 32px;
+      margin-bottom: 4px;
+    }
+
+    .hero-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(56px, 10vw, 120px);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .hero-headline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: clamp(18px, 2.5vw, 26px);
+      color: var(--gold);
+      font-style: italic;
+      letter-spacing: -0.01em;
+      margin-top: 8px;
+    }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-dim);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll-hint .arrow {
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(180deg, var(--text-dim) 0%, transparent 100%);
+      animation: pulseDown 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDown {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.3); }
+    }
+
+    /* ============================================
+       SCROLLYTELLING SECTION
+       ============================================ */
+    .scrolly {
+      position: relative;
+    }
+
+    .viz-panel {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .viz-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+      width: 100%;
+      max-width: 680px;
+      padding: 0 32px;
+    }
+
+    /* --- Run tracker --- */
+    .run-tracker {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      opacity: 0;
+    }
+
+    .run-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .run-dot {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 2px solid var(--slate);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--slate);
+      transition: border-color 0.1s;
+      position: relative;
+    }
+
+    .run-dot .dot-x {
+      position: absolute;
+      font-size: 26px;
+      opacity: 0;
+      color: var(--red);
+    }
+
+    .run-dot .dot-num {
+      transition: opacity 0.1s;
+    }
+
+    .run-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .run-line {
+      width: 80px;
+      height: 2px;
+      background: var(--slate);
+      margin-bottom: 28px;
+      opacity: 0.4;
+    }
+
+    /* --- Central display --- */
+    .center-display {
+      position: relative;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .display-state {
+      position: absolute;
+      text-align: center;
+      opacity: 0;
+    }
+
+    .display-setup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .display-setup .big {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 48px;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .display-setup .sub {
+      font-size: 15px;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .display-crash {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 140px;
+      font-weight: 700;
+      color: var(--red);
+      line-height: 1;
+      text-shadow: 0 0 60px var(--red-dim);
+    }
+
+    .display-tension {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .display-tension .pulse-ring {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 40px var(--gold-glow), inset 0 0 40px var(--gold-glow);
+      animation: pulseGold 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulseGold {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    .display-tension .tension-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .display-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .score-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(100px, 15vw, 180px);
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      text-shadow: 0 0 80px var(--gold-glow);
+    }
+
+    .score-label {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    /* --- Comparison bars --- */
+    .comparison {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      opacity: 0;
+    }
+
+    .comp-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .comp-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dim);
+      width: 120px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .comp-bar-track {
+      flex: 1;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .comp-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+    }
+
+    .comp-bar-fill.gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%); }
+    .comp-bar-fill.silver { background: linear-gradient(90deg, #8A8A8A 0%, #B0B0B0 100%); }
+    .comp-bar-fill.bronze { background: linear-gradient(90deg, #8B6914 0%, #A67C28 100%); }
+
+    .comp-score {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy-deep);
+    }
+
+    /* --- Step narrations --- */
+    .scroll-steps {
+      position: relative;
+      z-index: 10;
+      margin-top: -100vh;
+    }
+
+    .step {
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0 24px 12vh;
+    }
+
+    .step-card {
+      background: rgba(7, 13, 24, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 32px 40px;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+
+    .step-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .step-text em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .step-text .red {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    /* ============================================
+       TYPOGRAPHIC MOMENT
+       ============================================ */
+    .typo-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 32px;
+      position: relative;
+      background: var(--navy-deep);
+    }
+
+    .typo-big-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(120px, 25vw, 280px);
+      font-weight: 700;
+      line-height: 0.85;
+      color: var(--text);
+      opacity: 0;
+    }
+
+    .typo-unit {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(18px, 3vw, 32px);
+      font-weight: 300;
+      color: var(--mist);
+      margin-top: 8px;
+      opacity: 0;
+    }
+
+    .typo-divider {
+      width: 48px;
+      height: 1px;
+      background: var(--slate);
+      margin: 40px 0;
+      opacity: 0;
+    }
+
+    .typo-context {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 400;
+      color: var(--text-dim);
+      max-width: 440px;
+      line-height: 1.6;
+      opacity: 0;
+    }
+
+    .typo-context strong {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* ============================================
+       HUMAN LAYER SECTION
+       ============================================ */
+    .human-section {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 32px;
+      background: var(--navy-deep);
+    }
+
+    .human-grid {
+      display: flex;
+      gap: 64px;
+      align-items: baseline;
+      opacity: 0;
+    }
+
+    .human-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .human-stat .val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .human-stat .label {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-dim);
+      max-width: 120px;
+    }
+
+    /* ============================================
+       CLOSING
+       ============================================ */
+    .closing {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 0 32px;
+      background: linear-gradient(180deg, var(--navy-deep) 0%, var(--sky-deep) 100%);
+      text-align: center;
+    }
+
+    .closing-line {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(20px, 3vw, 32px);
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.6;
+      max-width: 560px;
+      opacity: 0;
+    }
+
+    .closing-line em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .closing-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0;
+    }
+
+    .closing-medal {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, var(--gold-light) 0%, var(--gold) 60%, #8B6914 100%);
+      box-shadow: 0 0 40px var(--gold-glow);
+      opacity: 0;
+    }
+
+    /* ============================================
+       GOLD PARTICLES
+       ============================================ */
+    .particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--gold-light);
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    /* ============================================
+       BG GLOW
+       ============================================ */
+    .bg-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow" id="bgGlow"></div>
+  <div class="particles-container" id="particles"></div>
+
+  <!-- ==========================================
+       HERO
+       ========================================== -->
+  <section class="hero">
+    <svg class="hero-mountains" viewBox="0 0 1440 400" preserveAspectRatio="none" fill="none">
+      <polygon points="0,400 200,120 400,280 600,80 800,220 1000,60 1200,200 1440,100 1440,400" fill="rgba(255,255,255,0.08)"/>
+      <polygon points="0,400 150,200 350,320 550,160 750,300 950,140 1150,260 1440,180 1440,400" fill="rgba(255,255,255,0.04)"/>
+    </svg>
+
+    <div class="hero-content">
+      <span class="hero-flag">&#x1F1F0;&#x1F1F7;</span>
+      <p class="hero-sport">South Korea &middot; Snowboard Halfpipe</p>
+      <h1 class="hero-name">CHOI<br>GAON</h1>
+      <p class="hero-headline">The Student Becomes the Master</p>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SCROLLYTELLING
+       ========================================== -->
+  <section class="scrolly">
+
+    <!-- Sticky viz panel -->
+    <div class="viz-panel">
+      <div class="viz-inner">
+
+        <!-- Run tracker -->
+        <div class="run-tracker" id="runTracker">
+          <div class="run-node" id="run1">
+            <div class="run-dot">
+              <span class="dot-num">1</span>
+              <span class="dot-x">&#10005;</span>
+            </div>
+            <span class="run-label">Run 1</span>
+          </div>
+          <div class="run-line"></div>
+          <div class="run-node" id="run2">
+            <div class="run-dot">
+              <span class="dot-num">2</span>
+              <span class="dot-x">&#10005;</span>
+            </div>
+            <span class="run-label">Run 2</span>
+          </div>
+          <div class="run-line"></div>
+          <div class="run-node" id="run3">
+            <div class="run-dot">
+              <span class="dot-num">3</span>
+              <span class="dot-x">&#10005;</span>
+            </div>
+            <span class="run-label">Run 3</span>
+          </div>
+        </div>
+
+        <!-- Central display -->
+        <div class="center-display">
+          <div class="display-state display-setup" id="stateSetup">
+            <span class="big">3 RUNS</span>
+            <span class="sub">Halfpipe Final &middot; Milano Cortina</span>
+          </div>
+          <div class="display-state display-crash" id="stateCrash1">&#10005;</div>
+          <div class="display-state display-crash" id="stateCrash2">&#10005; &#10005;</div>
+          <div class="display-state display-tension" id="stateTension">
+            <div class="pulse-ring"></div>
+            <span class="tension-text">One run left</span>
+          </div>
+          <div class="display-state display-score" id="stateScore">
+            <span class="score-number" id="scoreNum">0</span>
+            <span class="score-label">Run 3 &middot; Gold</span>
+          </div>
+        </div>
+
+        <!-- Comparison bars -->
+        <div class="comparison" id="comparison">
+          <div class="comp-row">
+            <span class="comp-name">Choi Gaon</span>
+            <div class="comp-bar-track">
+              <div class="comp-bar-fill gold" id="barChoi">
+                <span class="comp-score">90.25</span>
+              </div>
+            </div>
+          </div>
+          <div class="comp-row">
+            <span class="comp-name">Chloe Kim</span>
+            <div class="comp-bar-track">
+              <div class="comp-bar-fill silver" id="barKim">
+                <span class="comp-score">88.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="comp-row">
+            <span class="comp-name">Mitsuki Ono</span>
+            <div class="comp-bar-track">
+              <div class="comp-bar-fill bronze" id="barOno">
+                <span class="comp-score">85.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Scroll narration steps (overlap the viz) -->
+    <div class="scroll-steps">
+
+      <div class="step" data-step="0">
+        <div class="step-card">
+          <p class="step-label">Halfpipe Final</p>
+          <p class="step-text">Three runs. Ninety seconds each.<br>One shot at gold.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="1">
+        <div class="step-card">
+          <p class="step-label">Run 1</p>
+          <p class="step-text">She clips the lip on entry.<br><span class="red">Crashed.</span></p>
+        </div>
+      </div>
+
+      <div class="step" data-step="2">
+        <div class="step-card">
+          <p class="step-label">Run 2</p>
+          <p class="step-text">Washed out on the first hit.<br><span class="red">Down again.</span></p>
+        </div>
+      </div>
+
+      <div class="step" data-step="3">
+        <div class="step-card">
+          <p class="step-label">Run 3</p>
+          <p class="step-text">Everything on the line.<br>Two crashes behind her. One chance left.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="4">
+        <div class="step-card">
+          <p class="step-text" style="font-size: 18px; color: var(--gold);">She drops in.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="5">
+        <div class="step-card">
+          <p class="step-label">Final Score</p>
+          <p class="step-text">She dethroned <em>Chloe Kim</em>.<br>Two-time Olympic champion. Her idol.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       TYPOGRAPHIC MOMENT
+       ========================================== -->
+  <section class="typo-section" id="typoSection">
+    <span class="typo-big-number" id="typoBig">17</span>
+    <span class="typo-unit" id="typoUnit">years, 101 days</span>
+    <div class="typo-divider" id="typoDivider"></div>
+    <p class="typo-context" id="typoContext">
+      South Korea's <strong>first-ever</strong> Olympic snow-sport gold medalist.
+    </p>
+  </section>
+
+  <!-- ==========================================
+       HUMAN LAYER
+       ========================================== -->
+  <section class="human-section" id="humanSection">
+    <div class="human-grid" id="humanGrid">
+      <div class="human-stat">
+        <span class="val">2</span>
+        <span class="label">crashes before gold</span>
+      </div>
+      <div class="human-stat">
+        <span class="val">90s</span>
+        <span class="label">to change everything</span>
+      </div>
+      <div class="human-stat">
+        <span class="val">1st</span>
+        <span class="label">Korean snow-sport Olympic medal — ever</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CLOSING
+       ========================================== -->
+  <section class="closing" id="closingSection">
+    <div class="closing-medal" id="closingMedal"></div>
+    <p class="closing-line" id="closingLine">
+      She crashed. She got back up.<br><em>She won.</em>
+    </p>
+    <p class="closing-brand" id="closingBrand">First Light &middot; Milano Cortina 2026</p>
+  </section>
+
+  <!-- ==========================================
+       SCRIPTS
+       ========================================== -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // -------------------------------------------
+    // State management
+    // -------------------------------------------
+    let currentBeat = -1;
+
+    const stateEls = {
+      setup:   document.getElementById('stateSetup'),
+      crash1:  document.getElementById('stateCrash1'),
+      crash2:  document.getElementById('stateCrash2'),
+      tension: document.getElementById('stateTension'),
+      score:   document.getElementById('stateScore'),
+    };
+
+    const run1Dot = document.querySelector('#run1 .run-dot');
+    const run2Dot = document.querySelector('#run2 .run-dot');
+    const run3Dot = document.querySelector('#run3 .run-dot');
+    const run1X   = document.querySelector('#run1 .dot-x');
+    const run1Num = document.querySelector('#run1 .dot-num');
+    const run2X   = document.querySelector('#run2 .dot-x');
+    const run2Num = document.querySelector('#run2 .dot-num');
+    const run3X   = document.querySelector('#run3 .dot-x');
+    const run3Num = document.querySelector('#run3 .dot-num');
+    const bgGlow  = document.getElementById('bgGlow');
+
+    function hideAllStates() {
+      Object.values(stateEls).forEach(el => gsap.set(el, { opacity: 0 }));
+    }
+
+    function resetRuns() {
+      [run1Dot, run2Dot, run3Dot].forEach(dot => {
+        gsap.set(dot, { borderColor: 'var(--slate)', background: 'transparent', boxShadow: 'none' });
+      });
+      [run1X, run2X, run3X].forEach(x => gsap.set(x, { opacity: 0 }));
+      [run1Num, run2Num, run3Num].forEach(n => gsap.set(n, { opacity: 1, color: 'var(--slate)' }));
+      gsap.set(bgGlow, { opacity: 0 });
+    }
+
+    // -------------------------------------------
+    // Beat transitions
+    // -------------------------------------------
+    function goToBeat(beat) {
+      if (beat === currentBeat) return;
+      currentBeat = beat;
+
+      hideAllStates();
+
+      switch (beat) {
+        case 0: // Setup
+          resetRuns();
+          gsap.to(stateEls.setup, { opacity: 1, duration: 0.5 });
+          break;
+
+        case 1: // Run 1 crash
+          resetRuns();
+          gsap.to(stateEls.crash1, { opacity: 1, duration: 0.4 });
+          gsap.to(run1Dot, { borderColor: 'var(--red)', background: 'var(--red-dim)', duration: 0.3 });
+          gsap.to(run1X, { opacity: 1, duration: 0.3 });
+          gsap.to(run1Num, { opacity: 0, duration: 0.2 });
+          break;
+
+        case 2: // Run 2 crash
+          resetRuns();
+          // Run 1 stays crashed
+          gsap.set(run1Dot, { borderColor: 'var(--red)', background: 'var(--red-dim)' });
+          gsap.set(run1X, { opacity: 1 });
+          gsap.set(run1Num, { opacity: 0 });
+          // Run 2 crashes
+          gsap.to(stateEls.crash2, { opacity: 1, duration: 0.4 });
+          gsap.to(run2Dot, { borderColor: 'var(--red)', background: 'var(--red-dim)', duration: 0.3 });
+          gsap.to(run2X, { opacity: 1, duration: 0.3 });
+          gsap.to(run2Num, { opacity: 0, duration: 0.2 });
+          break;
+
+        case 3: // Last chance - tension
+          resetRuns();
+          // Runs 1 & 2 dimmed crashes
+          gsap.set(run1Dot, { borderColor: 'var(--red)', background: 'var(--red-dim)' });
+          gsap.set(run1X, { opacity: 0.4 });
+          gsap.set(run1Num, { opacity: 0 });
+          gsap.set(run2Dot, { borderColor: 'var(--red)', background: 'var(--red-dim)' });
+          gsap.set(run2X, { opacity: 0.4 });
+          gsap.set(run2Num, { opacity: 0 });
+          // Run 3 glows
+          gsap.to(stateEls.tension, { opacity: 1, duration: 0.5 });
+          gsap.to(run3Dot, { borderColor: 'var(--gold)', boxShadow: '0 0 20px var(--gold-glow)', duration: 0.5 });
+          gsap.to(run3Num, { color: 'var(--gold)', duration: 0.3 });
+          break;
+
+        case 4: // 90.25 - GOLD
+          resetRuns();
+          // Runs 1 & 2 faded
+          gsap.set(run1Dot, { borderColor: 'rgba(205,46,58,0.2)', background: 'transparent' });
+          gsap.set(run1X, { opacity: 0.2 });
+          gsap.set(run1Num, { opacity: 0 });
+          gsap.set(run2Dot, { borderColor: 'rgba(205,46,58,0.2)', background: 'transparent' });
+          gsap.set(run2X, { opacity: 0.2 });
+          gsap.set(run2Num, { opacity: 0 });
+          // Run 3 GOLD
+          gsap.set(run3Dot, { borderColor: 'var(--gold)', background: 'var(--gold)', boxShadow: '0 0 30px var(--gold-glow)' });
+          gsap.set(run3Num, { opacity: 0 });
+          gsap.set(run3X, { opacity: 0 }); // no X - it's gold
+
+          // Score
+          gsap.to(stateEls.score, { opacity: 1, duration: 0.6 });
+          gsap.to(bgGlow, { opacity: 0.5, duration: 1 });
+
+          // Animate score counter
+          const scoreEl = document.getElementById('scoreNum');
+          gsap.fromTo(scoreEl, { innerText: 0 }, {
+            innerText: 90.25,
+            duration: 2,
+            ease: 'power2.out',
+            snap: { innerText: 0.01 },
+            onUpdate: function() {
+              scoreEl.textContent = parseFloat(scoreEl.innerText || 0).toFixed(2);
+            }
+          });
+
+          // Fire particles
+          spawnParticles();
+          break;
+
+        case 5: // Comparison
+          // Keep gold state from beat 4 for the runs
+          gsap.set(run1Dot, { borderColor: 'rgba(205,46,58,0.2)', background: 'transparent' });
+          gsap.set(run1X, { opacity: 0.2 });
+          gsap.set(run1Num, { opacity: 0 });
+          gsap.set(run2Dot, { borderColor: 'rgba(205,46,58,0.2)', background: 'transparent' });
+          gsap.set(run2X, { opacity: 0.2 });
+          gsap.set(run2Num, { opacity: 0 });
+          gsap.set(run3Dot, { borderColor: 'var(--gold)', background: 'var(--gold)', boxShadow: '0 0 30px var(--gold-glow)' });
+          gsap.set(run3Num, { opacity: 0 });
+
+          gsap.to(stateEls.score, { opacity: 1, duration: 0.3 });
+          document.getElementById('scoreNum').textContent = '90.25';
+          gsap.to(bgGlow, { opacity: 0.3, duration: 0.5 });
+
+          // Animate comparison bars
+          const comp = document.getElementById('comparison');
+          gsap.to(comp, { opacity: 1, duration: 0.5, delay: 0.2 });
+
+          // Scale: 82-92 range. bar width = (score - 82) / 10 * 100%
+          gsap.to('#barChoi', { width: '82.5%', duration: 1, delay: 0.4, ease: 'power2.out' });
+          gsap.to('#barKim',  { width: '60%',   duration: 1, delay: 0.55, ease: 'power2.out' });
+          gsap.to('#barOno',  { width: '30%',   duration: 1, delay: 0.7, ease: 'power2.out' });
+          break;
+      }
+    }
+
+    // -------------------------------------------
+    // Particle burst
+    // -------------------------------------------
+    function spawnParticles() {
+      const container = document.getElementById('particles');
+      container.innerHTML = '';
+
+      for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = '50%';
+        p.style.top = '45%';
+
+        const size = 3 + Math.random() * 5;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.background = Math.random() > 0.5 ? 'var(--gold-light)' : 'var(--gold)';
+
+        container.appendChild(p);
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 100 + Math.random() * 300;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+
+        gsap.fromTo(p,
+          { opacity: 1, x: 0, y: 0, scale: 1 },
+          {
+            x: dx, y: dy, opacity: 0, scale: 0,
+            duration: 1.2 + Math.random() * 0.8,
+            delay: Math.random() * 0.3,
+            ease: 'power2.out',
+          }
+        );
+      }
+    }
+
+    // -------------------------------------------
+    // ScrollTrigger setup
+    // -------------------------------------------
+
+    // Fade in the run tracker when entering the scrolly section
+    gsap.to('#runTracker', {
+      opacity: 1,
+      duration: 0.6,
+      scrollTrigger: {
+        trigger: '.scrolly',
+        start: 'top 80%',
+        toggleActions: 'play none none reverse',
+      }
+    });
+
+    // Each step triggers a beat
+    document.querySelectorAll('.step').forEach((step) => {
+      const beatIndex = parseInt(step.dataset.step);
+
+      ScrollTrigger.create({
+        trigger: step,
+        start: 'top 55%',
+        end: 'bottom 45%',
+        onEnter: () => goToBeat(beatIndex),
+        onEnterBack: () => goToBeat(beatIndex),
+      });
+    });
+
+    // -------------------------------------------
+    // Typographic section
+    // -------------------------------------------
+    const typoTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#typoSection',
+        start: 'top 60%',
+        toggleActions: 'play none none reverse',
+      }
+    });
+
+    typoTL
+      .to('#typoBig',     { opacity: 1, duration: 0.8, y: 0 }, 0)
+      .from('#typoBig',   { y: 30 }, 0)
+      .to('#typoUnit',    { opacity: 1, duration: 0.6 }, 0.3)
+      .to('#typoDivider',  { opacity: 1, width: 48, duration: 0.5 }, 0.5)
+      .from('#typoDivider', { width: 0 }, 0.5)
+      .to('#typoContext',  { opacity: 1, duration: 0.6 }, 0.7)
+      .from('#typoContext', { y: 16 }, 0.7);
+
+    // -------------------------------------------
+    // Human layer
+    // -------------------------------------------
+    gsap.to('#humanGrid', {
+      opacity: 1,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: '#humanSection',
+        start: 'top 60%',
+        toggleActions: 'play none none reverse',
+      }
+    });
+
+    gsap.from('#humanGrid .human-stat', {
+      y: 24,
+      opacity: 0,
+      stagger: 0.15,
+      duration: 0.6,
+      scrollTrigger: {
+        trigger: '#humanSection',
+        start: 'top 60%',
+        toggleActions: 'play none none reverse',
+      }
+    });
+
+    // -------------------------------------------
+    // Closing
+    // -------------------------------------------
+    const closeTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#closingSection',
+        start: 'top 60%',
+        toggleActions: 'play none none reverse',
+      }
+    });
+
+    closeTL
+      .to('#closingMedal', { opacity: 1, duration: 0.6, scale: 1 }, 0)
+      .from('#closingMedal', { scale: 0.5 }, 0)
+      .to('#closingLine',  { opacity: 1, duration: 0.8 }, 0.3)
+      .from('#closingLine', { y: 20 }, 0.3)
+      .to('#closingBrand', { opacity: 1, duration: 0.6 }, 0.8);
+
+    // -------------------------------------------
+    // Hero parallax
+    // -------------------------------------------
+    gsap.to('.hero-content', {
+      y: -80,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      }
+    });
+  </script>
+
+</body>
+</html>

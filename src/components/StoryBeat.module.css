@@ -1,0 +1,61 @@
+.step {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  padding: 0 24px 12vh;
+  pointer-events: none;
+}
+
+.card {
+  background: rgba(7, 13, 24, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 32px 40px;
+  max-width: 480px;
+  text-align: center;
+  pointer-events: auto;
+}
+
+.label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #6B7D8D;
+  margin-bottom: 12px;
+}
+
+.text {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: #E8E2D8;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.text em {
+  color: var(--gold);
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* CSS modules won't match inner HTML classes — use :global */
+.text :global(.accent-red) {
+  color: #CD2E3A;
+  font-weight: 700;
+}
+
+.subtext {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #6B7D8D;
+  margin-top: 8px;
+}

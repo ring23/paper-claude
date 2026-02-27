@@ -18,7 +18,7 @@ const MILANO_EVENTS = [
   "50km Mass",
 ];
 
-function spawnParticles(container: HTMLDivElement) {
+function spawnParticles(container: HTMLDivElement, colors: string[]) {
   container.innerHTML = "";
 
   for (let i = 0; i < 60; i++) {
@@ -36,15 +36,13 @@ function spawnParticles(container: HTMLDivElement) {
     p.style.width = size + "px";
     p.style.height = size + "px";
 
-    // Norwegian flag colors + gold
-    const colors = ["#E4C45A", "#C6982B", "#BA0C2F", "#FFFFFF"];
     p.style.background = colors[Math.floor(Math.random() * colors.length)];
 
     container.appendChild(p);
   }
 }
 
-export default function KlaeboVizRenderer({ state }: Props) {
+export default function KlaeboVizRenderer({ state, athlete }: Props) {
   const particlesRef = useRef<HTMLDivElement>(null);
   const prevDisplayRef = useRef<string | null>(null);
   const prevBurstRef = useRef(false);
@@ -252,10 +250,10 @@ export default function KlaeboVizRenderer({ state }: Props) {
   // Particle burst — fire only on transition to true
   useEffect(() => {
     if (state.particleBurst && !prevBurstRef.current && particlesRef.current) {
-      spawnParticles(particlesRef.current);
+      spawnParticles(particlesRef.current, [athlete.colors.primary, athlete.colors.secondary, "#E4C45A", "#FFFFFF"]);
     }
     prevBurstRef.current = state.particleBurst;
-  }, [state.particleBurst]);
+  }, [state.particleBurst, athlete.colors.primary, athlete.colors.secondary]);
 
   return (
     <div className={styles.container}>

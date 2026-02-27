@@ -9,11 +9,7 @@ interface Props {
   athlete: Athlete;
 }
 
-// USA colors: red #B31942, blue #0A3161, gold #C6982B/#E4C45A
-// Canada red: #FF0000
-const PARTICLE_COLORS = ["#E4C45A", "#C6982B", "#B31942", "#0A3161", "#FFFFFF"];
-
-function spawnParticles(container: HTMLDivElement) {
+function spawnParticles(container: HTMLDivElement, colors: string[]) {
   container.innerHTML = "";
 
   for (let i = 0; i < 50; i++) {
@@ -34,7 +30,7 @@ function spawnParticles(container: HTMLDivElement) {
     p.style.width = size + "px";
     p.style.height = size + "px";
     p.style.background =
-      PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
+      colors[Math.floor(Math.random() * colors.length)];
 
     container.appendChild(p);
   }
@@ -61,7 +57,7 @@ function getPeriodLabel(display: HughesVizState["centerDisplay"]): string {
   }
 }
 
-export default function HughesVizRenderer({ state }: Props) {
+export default function HughesVizRenderer({ state, athlete }: Props) {
   const particlesRef = useRef<HTMLDivElement>(null);
   const prevDisplayRef = useRef<string | null>(null);
   const prevBurstRef = useRef(false);
@@ -206,10 +202,10 @@ export default function HughesVizRenderer({ state }: Props) {
   // Particle burst — fire only on transition to true
   useEffect(() => {
     if (state.particleBurst && !prevBurstRef.current && particlesRef.current) {
-      spawnParticles(particlesRef.current);
+      spawnParticles(particlesRef.current, [athlete.colors.primary, athlete.colors.secondary, "#E4C45A", "#C6982B", "#FFFFFF"]);
     }
     prevBurstRef.current = state.particleBurst;
-  }, [state.particleBurst]);
+  }, [state.particleBurst, athlete.colors.primary, athlete.colors.secondary]);
 
   return (
     <div className={styles.container}>

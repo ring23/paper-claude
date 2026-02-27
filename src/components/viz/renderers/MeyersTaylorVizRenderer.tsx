@@ -54,7 +54,7 @@ const DISPLAY_AGE: Partial<Record<MeyersTaylorCenterDisplay, number>> = {
   gold: 41,
 };
 
-function spawnParticles(container: HTMLDivElement) {
+function spawnParticles(container: HTMLDivElement, colors: string[]) {
   container.innerHTML = "";
 
   for (let i = 0; i < 40; i++) {
@@ -71,8 +71,6 @@ function spawnParticles(container: HTMLDivElement) {
     p.style.setProperty("--duration", `${1.2 + Math.random() * 0.8}s`);
     p.style.width = size + "px";
     p.style.height = size + "px";
-    // USA-themed particles: red/gold mix
-    const colors = ["#E4C45A", "#C6982B", "#B31942", "#FFFFFF"];
     p.style.background = colors[Math.floor(Math.random() * colors.length)];
 
     container.appendChild(p);
@@ -95,7 +93,7 @@ function getMedalCountsByStop(dotsLit: number): number[] {
   return result;
 }
 
-export default function MeyersTaylorVizRenderer({ state }: Props) {
+export default function MeyersTaylorVizRenderer({ state, athlete }: Props) {
   const particlesRef = useRef<HTMLDivElement>(null);
   const prevDisplayRef = useRef<string | null>(null);
   const prevBurstRef = useRef(false);
@@ -224,10 +222,10 @@ export default function MeyersTaylorVizRenderer({ state }: Props) {
   // Particle burst
   useEffect(() => {
     if (state.particleBurst && !prevBurstRef.current && particlesRef.current) {
-      spawnParticles(particlesRef.current);
+      spawnParticles(particlesRef.current, [athlete.colors.primary, athlete.colors.secondary, "#E4C45A", "#FFFFFF"]);
     }
     prevBurstRef.current = state.particleBurst;
-  }, [state.particleBurst]);
+  }, [state.particleBurst, athlete.colors.primary, athlete.colors.secondary]);
 
   // Build flat index for medal dot refs
   let flatIdx = 0;

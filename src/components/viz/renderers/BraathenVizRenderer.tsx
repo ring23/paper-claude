@@ -9,7 +9,7 @@ interface Props {
   athlete: Athlete;
 }
 
-function spawnParticles(container: HTMLDivElement) {
+function spawnParticles(container: HTMLDivElement, primary: string, secondary: string) {
   container.innerHTML = "";
 
   for (let i = 0; i < 40; i++) {
@@ -26,15 +26,15 @@ function spawnParticles(container: HTMLDivElement) {
     p.style.setProperty("--duration", `${1.2 + Math.random() * 0.8}s`);
     p.style.width = size + "px";
     p.style.height = size + "px";
-    // Brazil-themed gold and green particles
+    // Athlete-themed particles
     p.style.background =
-      Math.random() > 0.5 ? "#FFDF00" : Math.random() > 0.5 ? "#009B3A" : "#C6982B";
+      Math.random() > 0.5 ? primary : Math.random() > 0.5 ? secondary : "#C6982B";
 
     container.appendChild(p);
   }
 }
 
-export default function BraathenVizRenderer({ state }: Props) {
+export default function BraathenVizRenderer({ state, athlete }: Props) {
   const particlesRef = useRef<HTMLDivElement>(null);
   const prevDisplayRef = useRef<string | null>(null);
   const prevBurstRef = useRef(false);
@@ -199,10 +199,10 @@ export default function BraathenVizRenderer({ state }: Props) {
   // Particle burst — fire only on transition to true
   useEffect(() => {
     if (state.particleBurst && !prevBurstRef.current && particlesRef.current) {
-      spawnParticles(particlesRef.current);
+      spawnParticles(particlesRef.current, athlete.colors.primary, athlete.colors.secondary);
     }
     prevBurstRef.current = state.particleBurst;
-  }, [state.particleBurst]);
+  }, [state.particleBurst, athlete.colors.primary, athlete.colors.secondary]);
 
   return (
     <div className={styles.container}>

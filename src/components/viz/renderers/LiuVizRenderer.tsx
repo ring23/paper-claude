@@ -17,7 +17,7 @@ function positionToTop(pos: number): number {
 
 const SKATER_NAMES = ["Liu", "Sakamoto", "Nakai"];
 
-function spawnParticles(container: HTMLDivElement) {
+function spawnParticles(container: HTMLDivElement, colors: string[]) {
   container.innerHTML = "";
 
   for (let i = 0; i < 40; i++) {
@@ -34,15 +34,13 @@ function spawnParticles(container: HTMLDivElement) {
     p.style.setProperty("--duration", `${1.2 + Math.random() * 0.8}s`);
     p.style.width = size + "px";
     p.style.height = size + "px";
-    // Mix gold and rose-pink particles for figure skating elegance
-    const colors = ["#E4C45A", "#C6982B", "#D8C0C8", "#B31942"];
     p.style.background = colors[Math.floor(Math.random() * colors.length)];
 
     container.appendChild(p);
   }
 }
 
-export default function LiuVizRenderer({ state }: Props) {
+export default function LiuVizRenderer({ state, athlete }: Props) {
   const particlesRef = useRef<HTMLDivElement>(null);
   const prevDisplayRef = useRef<string | null>(null);
   const prevBurstRef = useRef(false);
@@ -187,10 +185,10 @@ export default function LiuVizRenderer({ state }: Props) {
   // Particle burst — fire only on transition to true
   useEffect(() => {
     if (state.particleBurst && !prevBurstRef.current && particlesRef.current) {
-      spawnParticles(particlesRef.current);
+      spawnParticles(particlesRef.current, [athlete.colors.primary, athlete.colors.secondary, "#E4C45A", "#C6982B"]);
     }
     prevBurstRef.current = state.particleBurst;
-  }, [state.particleBurst]);
+  }, [state.particleBurst, athlete.colors.primary, athlete.colors.secondary]);
 
   return (
     <div className={styles.container}>

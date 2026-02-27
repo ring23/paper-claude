@@ -55,7 +55,7 @@ const DOT_STYLES: Record<
   },
 };
 
-function spawnParticles(container: HTMLDivElement) {
+function spawnParticles(container: HTMLDivElement, primary: string, secondary: string) {
   container.innerHTML = "";
 
   for (let i = 0; i < 40; i++) {
@@ -72,13 +72,13 @@ function spawnParticles(container: HTMLDivElement) {
     p.style.setProperty("--duration", `${1.2 + Math.random() * 0.8}s`);
     p.style.width = size + "px";
     p.style.height = size + "px";
-    p.style.background = Math.random() > 0.5 ? "#E4C45A" : "#C6982B";
+    p.style.background = Math.random() > 0.5 ? primary : secondary;
 
     container.appendChild(p);
   }
 }
 
-export default function ChoiVizRenderer({ state }: Props) {
+export default function ChoiVizRenderer({ state, athlete }: Props) {
   const particlesRef = useRef<HTMLDivElement>(null);
   const prevDisplayRef = useRef<string | null>(null);
   const prevBurstRef = useRef(false);
@@ -194,10 +194,10 @@ export default function ChoiVizRenderer({ state }: Props) {
   // Particle burst — fire only on transition to true
   useEffect(() => {
     if (state.particleBurst && !prevBurstRef.current && particlesRef.current) {
-      spawnParticles(particlesRef.current);
+      spawnParticles(particlesRef.current, athlete.colors.primary, athlete.colors.secondary);
     }
     prevBurstRef.current = state.particleBurst;
-  }, [state.particleBurst]);
+  }, [state.particleBurst, athlete.colors.primary, athlete.colors.secondary]);
 
   return (
     <div className={styles.container}>

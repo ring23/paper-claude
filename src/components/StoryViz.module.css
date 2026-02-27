@@ -73,14 +73,15 @@
 .bgGlow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(198, 152, 43, 0.15) 0%, transparent 70%);
+  background: var(--athlete-primary, #C6982B);
   opacity: 0;
+  mix-blend-mode: soft-light;
   transition: opacity 1s;
   pointer-events: none;
 }
 
 .bgGlowActive {
-  opacity: 0.5;
+  opacity: 0.15;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -41,6 +41,10 @@
   --gold-light: #E4C45A;
   --ice-blue: #5BA3D9;
 
+  /* Athlete identity (overridden per-athlete in StoryView) */
+  --athlete-primary: #C6982B;
+  --athlete-secondary: #E4C45A;
+
   /* Mountain layers */
   --mountain-far: #1B3A5C;
   --mountain-mid: #2D5F85;

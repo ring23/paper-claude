@@ -32,7 +32,7 @@
 .accent {
   height: 1.5px;
   margin-bottom: 14px;
-  background: linear-gradient(90deg, var(--gold, #C6982B) 0%, rgba(228, 196, 90, 0.6) 60%, transparent 100%);
+  background: linear-gradient(90deg, var(--athlete-primary, var(--gold)) 0%, var(--athlete-secondary, var(--gold-light)) 60%, transparent 100%);
   transform-origin: left;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .text em {
-  color: var(--gold, #C6982B);
+  color: var(--athlete-primary, var(--gold));
   font-style: normal;
   font-weight: 700;
 }

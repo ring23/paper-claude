@@ -46,6 +46,10 @@ export default function StoryView({ athlete, athletes, onSelect, onClose }: Prop
       <motion.div
         className={panelClass}
         ref={panelRef}
+        style={{
+          '--athlete-primary': athlete.colors.primary,
+          '--athlete-secondary': athlete.colors.secondary,
+        } as React.CSSProperties}
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%", transition: { type: "spring", stiffness: 200, damping: 28, delay: 0.2 } }}

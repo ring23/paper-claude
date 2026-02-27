@@ -15,7 +15,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--gold);
+  background: var(--athlete-primary, var(--gold));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +33,7 @@
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 13px;
-  color: var(--gold);
+  color: var(--athlete-primary, var(--gold));
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }

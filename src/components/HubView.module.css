@@ -42,3 +42,19 @@
   color: var(--slate);
   letter-spacing: 0.02em;
 }
+
+@media (max-width: 768px) {
+  .top {
+    padding-top: 48px;
+  }
+
+  .anchor {
+    top: 35%;
+    transform: scale(0.7);
+  }
+
+  .prompt {
+    padding-bottom: 24px;
+    font-size: 13px;
+  }
+}

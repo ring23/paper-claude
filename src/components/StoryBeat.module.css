@@ -3,46 +3,61 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: center;
+  align-items: stretch;
   position: relative;
   z-index: 10;
-  padding: 0 24px 12vh;
   pointer-events: none;
 }
 
+/* Bottom dock — full-width, anchored to bottom edge */
 .card {
-  background: rgba(7, 13, 24, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  padding: 32px 40px;
-  max-width: 480px;
-  text-align: center;
+  position: relative;
+  padding: 0 24px 28px;
   pointer-events: auto;
+}
+
+/* Gradient fade from transparent into the narration zone */
+.card::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, transparent 0%, rgba(9, 20, 34, 0.6) 60%, rgba(9, 20, 34, 0.92) 100%);
+  pointer-events: none;
+}
+
+/* Gold accent line */
+.accent {
+  height: 1.5px;
+  margin-bottom: 14px;
+  background: linear-gradient(90deg, var(--gold, #C6982B) 0%, rgba(228, 196, 90, 0.6) 60%, transparent 100%);
+  transform-origin: left;
 }
 
 .label {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: #6B7D8D;
-  margin-bottom: 12px;
+  letter-spacing: 0.2em;
+  color: #4A5E6D;
+  margin-bottom: 6px;
 }
 
 .text {
   font-family: 'Inter', sans-serif;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
   color: #E8E2D8;
   line-height: 1.5;
   letter-spacing: -0.01em;
+  max-width: 520px;
 }
 
 .text em {
-  color: var(--gold);
+  color: var(--gold, #C6982B);
   font-style: normal;
   font-weight: 700;
 }
@@ -55,7 +70,30 @@
 
 .subtext {
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: #6B7D8D;
-  margin-top: 8px;
+  font-size: 13px;
+  color: #5A6E7D;
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  .step {
+    min-height: 80vh;
+  }
+
+  .card {
+    padding: 0 16px 20px;
+  }
+
+  .text {
+    font-size: clamp(16px, 4.5vw, 20px);
+    max-width: none;
+  }
+
+  .label {
+    font-size: 9px;
+  }
+
+  .subtext {
+    font-size: 12px;
+  }
 }

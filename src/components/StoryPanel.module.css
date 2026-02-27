@@ -13,14 +13,54 @@
   justify-content: center;
   position: relative;
   padding: 0 var(--space-2xl);
+  background:
+    linear-gradient(180deg,
+      #10203A 0%,
+      #0D1B30 40%,
+      #0B1726 70%,
+      #091422 100%);
+  overflow: hidden;
+}
+
+/* Faint cold atmospheric glow — like moonlight above the horizon */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 50%;
+  background: radial-gradient(ellipse at center, rgba(140, 180, 220, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle gradient horizon at bottom of hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(180deg, transparent 0%, #091422 100%);
+  z-index: 1;
 }
 
 .heroContent {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
   text-align: center;
+}
+
+.heroFlag {
+  font-size: 32px;
+  margin-bottom: 4px;
 }
 
 .heroEyebrow {
@@ -29,22 +69,22 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--mist);
+  color: #7A9AB4;
 }
 
 .heroName {
   font-family: 'Archivo Black', sans-serif;
   font-weight: 400;
-  font-size: clamp(40px, 8vw, 64px);
-  color: var(--alpine-navy);
+  font-size: clamp(56px, 10vw, 120px);
+  color: #E8E4DE;
   letter-spacing: -0.03em;
-  line-height: 1.05;
+  line-height: 0.9;
 }
 
 .heroHeadline {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: clamp(18px, 2.5vw, 24px);
+  font-size: clamp(18px, 2.5vw, 26px);
   color: var(--gold);
   font-style: italic;
   letter-spacing: -0.01em;
@@ -54,14 +94,15 @@
 
 .scrollHint {
   position: absolute;
-  bottom: var(--space-xl);
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  color: var(--mist);
+  color: #5A7A94;
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   letter-spacing: 0.1em;
@@ -71,7 +112,7 @@
 .scrollArrow {
   width: 1px;
   height: 32px;
-  background: linear-gradient(180deg, var(--mist) 0%, transparent 100%);
+  background: linear-gradient(180deg, #5A7A94 0%, transparent 100%);
   animation: pulseDown 2s ease-in-out infinite;
 }
 
@@ -85,6 +126,60 @@
    ============================================ */
 .scrolly {
   position: relative;
+  background:
+    linear-gradient(180deg,
+      #091422 0%,
+      #0B1726 30%,
+      #091422 70%,
+      #081320 100%);
+}
+
+/* Scattered ice-crystal texture — very faint static "snow" */
+.scrolly::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1px 1px at 12% 8%, rgba(180, 210, 235, 0.12), transparent),
+    radial-gradient(1px 1px at 28% 22%, rgba(180, 210, 235, 0.08), transparent),
+    radial-gradient(1px 1px at 45% 12%, rgba(200, 220, 240, 0.06), transparent),
+    radial-gradient(1px 1px at 62% 35%, rgba(180, 210, 235, 0.10), transparent),
+    radial-gradient(1px 1px at 78% 18%, rgba(200, 220, 240, 0.07), transparent),
+    radial-gradient(1px 1px at 88% 42%, rgba(180, 210, 235, 0.09), transparent),
+    radial-gradient(1px 1px at 18% 55%, rgba(180, 210, 235, 0.06), transparent),
+    radial-gradient(1px 1px at 52% 48%, rgba(200, 220, 240, 0.08), transparent),
+    radial-gradient(1px 1px at 72% 62%, rgba(180, 210, 235, 0.10), transparent),
+    radial-gradient(1px 1px at 35% 72%, rgba(200, 220, 240, 0.07), transparent),
+    radial-gradient(1px 1px at 92% 78%, rgba(180, 210, 235, 0.05), transparent),
+    radial-gradient(1px 1px at 8% 85%, rgba(200, 220, 240, 0.08), transparent);
+  background-size: 400px 400px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Emotional atmosphere overlay — shifts color with beat emotion */
+.emotionOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: background 1.2s ease-in-out;
+}
+
+.emotionNeutral {
+  background: radial-gradient(ellipse at center 40%, rgba(100, 160, 210, 0.03) 0%, transparent 60%);
+}
+
+.emotionCrash {
+  background: radial-gradient(ellipse at center 40%, rgba(205, 46, 58, 0.08) 0%, transparent 70%);
+}
+
+.emotionTension {
+  background: radial-gradient(ellipse at center 40%, rgba(198, 152, 43, 0.06) 0%, transparent 70%);
+}
+
+.emotionTriumph {
+  background: radial-gradient(ellipse at center 40%, rgba(198, 152, 43, 0.12) 0%, transparent 70%);
 }
 
 .stepsOverlay {
@@ -101,7 +196,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
-  max-width: 680px;
+  background: #091422;
 }
 
 .footerBottom {
@@ -109,6 +204,15 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-xl);
+}
+
+/* Dark theme color overrides for child components */
+.darkTheme {
+  --alpine-navy: #E8E4DE;
+  --slate: #7A9AB4;
+  --mist: #5A7A94;
+  --frost-bg: rgba(255, 255, 255, 0.06);
+  --frost-border: rgba(255, 255, 255, 0.08);
 }
 
 /* ============================================
@@ -149,4 +253,34 @@
   color: var(--alpine-navy);
   line-height: 1.6;
   max-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 0 var(--space-lg);
+    min-height: 100dvh;
+  }
+
+  .stepsOverlay {
+    margin-top: -80vh;
+  }
+
+  .footer {
+    padding: var(--space-lg);
+  }
+
+  .footerBottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-lg);
+  }
+
+  .fallback {
+    padding: var(--space-lg);
+    max-width: none;
+  }
+
+  .fallbackStory {
+    max-width: none;
+  }
 }

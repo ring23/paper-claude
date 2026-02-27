@@ -1,7 +1,7 @@
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
 import type { StoryBeatData } from "../types/story";
+import { useIsMobile } from "../hooks/useIsMobile";
 import styles from "./StoryBeat.module.css";
 
 interface Props {
@@ -12,38 +12,56 @@ interface Props {
 }
 
 export default function StoryBeat({ beat, onActivate, scrollerRef }: Props) {
-  const stepRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const isInView = useInView(cardRef, {
+    root: scrollerRef,
+    margin: isMobile ? "-5% 0px -5% 0px" : "-15% 0px -15% 0px",
+    amount: "some",
+  });
 
-  useGSAP(
-    () => {
-      if (!stepRef.current || !scrollerRef.current) return;
-
-      ScrollTrigger.create({
-        trigger: stepRef.current,
-        scroller: scrollerRef.current,
-        start: "top 55%",
-        end: "bottom 45%",
-        onEnter: () => onActivate(beat),
-        onEnterBack: () => onActivate(beat),
-      });
-    },
-    { dependencies: [beat, scrollerRef], scope: stepRef },
-  );
+  useEffect(() => {
+    if (isInView) {
+      onActivate(beat);
+    }
+  }, [isInView, beat, onActivate]);
 
   return (
-    <div ref={stepRef} className={styles.step}>
-      <div className={styles.card}>
+    <div className={styles.step}>
+      <motion.div
+        ref={cardRef}
+        className={styles.card}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      >
+        <motion.div
+          className={styles.accent}
+          initial={{ scaleX: 0 }}
+          animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
+        />
         {beat.narration.label && (
           <p className={styles.label}>{beat.narration.label}</p>
         )}
-        <p
+        <motion.p
           className={styles.text}
           dangerouslySetInnerHTML={{ __html: beat.narration.text }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
         />
         {beat.narration.subtext && (
-          <p className={styles.subtext}>{beat.narration.subtext}</p>
+          <motion.p
+            className={styles.subtext}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.4, delay: 0.25 }}
+          >
+            {beat.narration.subtext}
+          </motion.p>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

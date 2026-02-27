@@ -25,3 +25,50 @@
   box-shadow: var(--frost-shadow);
   overflow-y: auto;
 }
+
+/* Dark immersive mode for scrollytelling athletes */
+.panelDark {
+  background: #0B1726;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-left: 1px solid rgba(120, 160, 200, 0.06);
+  box-shadow: none;
+}
+
+.mobileBack {
+  display: none;
+}
+
+/* --- Mobile: full-width panel, no sidebar --- */
+@media (max-width: 768px) {
+  .left {
+    display: none;
+  }
+
+  .panel,
+  .panelDark {
+    position: relative;
+    width: 100%;
+    border-left: none;
+  }
+
+  .mobileBack {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 100;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    color: #E8E4DE;
+    font-size: 20px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
